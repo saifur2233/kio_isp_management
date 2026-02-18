@@ -34,7 +34,7 @@
         <field name="arch" type="xml">
             <form string="Work Order">
                 <header>
-                    <button name="action_confirm_work_order" string="Confirm" type="object" class="oe_highlight"/>
+                    <button name="action_confirm_work_order" string="Submit" type="object" class="oe_highlight"/>
                     <field name="work_state" widget="statusbar"/>
                 </header>
                 <sheet>

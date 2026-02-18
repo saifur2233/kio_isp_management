@@ -35,7 +35,7 @@ class IspWorkOrder(models.Model):
     work_state = fields.Selection(
         [
             ('work_order', 'Work Order Created'),
-            ('sell_confirm', 'Sell Confirm'),
+            ('sell_confirm', 'Sell Submit'),
             ('marketing_confirm', 'Marketing Confirm'),
             ('marketing_revert', 'Marketing Revert'),
             ('legal_confirm', 'Legal Confirm'),

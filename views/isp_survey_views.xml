@@ -158,6 +158,7 @@
                                                 <field name="day"/>
                                                 <field name="amount" widget="monetary"/>
                                                 <field name="percentage" widget="percentage"/>
+                                                <field name="total_amount"/>
                                             </tree>
                                         </field>
                                     </div>

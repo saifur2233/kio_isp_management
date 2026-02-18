@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import fields, models, api
 
 
 class IspBillingCycle(models.Model):
@@ -19,3 +19,9 @@ class IspBillingCycle(models.Model):
     day = fields.Integer(string='Day')
     amount = fields.Monetary(string='Amount', currency_field='currency_id')
     percentage = fields.Float(string='Percentage')
+    total_amount = fields.Monetary(string='Total Amount', compute="_compute_total_amount")
+
+    @api.depends('amount', 'percentage')
+    def _compute_total_amount(self):
+        for rec in self:
+            rec.total_amount = rec.amount * rec.percentage

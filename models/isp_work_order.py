@@ -169,3 +169,12 @@ class IspWorkOrder(models.Model):
     def action_print_work_order(self):
         self.ensure_one()
         report = self.env.ref('kio_isp_management.action_report_isp_work_order', raise_if_not_found=False)
+
+
+
+    def action_marketing_confirm(self):
+        print("Button Clicked By Admin")
+
+
+    def action_marketing_revert(self):
+        print("Button Clicked By Admin")

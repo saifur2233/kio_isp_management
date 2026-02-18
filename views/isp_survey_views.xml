@@ -35,6 +35,18 @@
             <form string="Work Order">
                 <header>
                     <button name="action_confirm_work_order" string="Submit" type="object" class="oe_highlight"/>
+
+                    <!-- Add New Button -->
+                    <button name="action_marketing_confirm"
+                            string="Confirm"
+                            type="object"
+                            class="oe_highlight"/>
+
+                    <button name="action_marketing_revert"
+                            string="Revert"
+                            type="object"
+                            class="oe_highlight"/>
+
                     <field name="work_state" widget="statusbar"/>
                 </header>
                 <sheet>

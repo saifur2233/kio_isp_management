@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Form View Inheritance -->
+        <record id="view_partner_form_inherit_bd_address" model="ir.ui.view">
+            <field name="name">res.partner.form.inherit.bd.address</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <!-- VAT field-এর পরে Division, District, Upazila যোগ -->
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="division" widget="selection"/>
+                    <field name="district_id"
+                           context="{'default_country_id': country_id}"
+                           options="{'no_create': True}"
+                           placeholder="Select District"/>
+                    <field name="upazila_id"
+                           context="{'default_district_id': district_id}"
+                           options="{'no_create': True}"
+                           placeholder="Select Upazila"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

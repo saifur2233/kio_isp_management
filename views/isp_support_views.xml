@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Action -->
+    <record id="action_isp_support" model="ir.actions.act_window">
+        <field name="name">Support</field>
+        <field name="res_model">isp.support</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu -->
+<!--    <menuitem id="menu_isp_support"-->
+<!--              name="Support"-->
+<!--              action="action_isp_support"-->
+<!--              sequence="8"/>-->
+
+</odoo>

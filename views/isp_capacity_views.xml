@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree / List View -->
+    <record id="view_isp_capacity_type_tree" model="ir.ui.view">
+        <field name="name">isp.capacity.master.tree</field>
+        <field name="model">isp.capacity.master</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View - with name as header -->
+    <record id="view_isp_capacity_type_form" model="ir.ui.view">
+        <field name="name">isp.capacity.master.form</field>
+        <field name="model">isp.capacity.master</field>
+        <field name="arch" type="xml">
+            <form string="Capacity Type">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Capacity Type" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" string="Capacity Type" required="1" style="font-size: min(4vw, 2.6rem);"/>
+                        </h1>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_isp_capacity" model="ir.actions.act_window">
+        <field name="name">Capacity Types</field>
+        <field name="res_model">isp.capacity.master</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_isp_capacity_type_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Capacity Type!
+            </p>
+        </field>
+    </record>
+
+    <!-- Menuitem - placed under menu_configuration_root -->
+    <menuitem
+        id="menu_isp_capacity_type"
+        name="Capacity Types"
+        parent="menu_configuration_root"
+        action="action_isp_capacity"
+        sequence="2"/>
+
+</odoo>

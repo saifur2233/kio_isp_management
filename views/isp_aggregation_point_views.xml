@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_isp_aggregation_point_tree" model="ir.ui.view">
+        <field name="name">isp.aggregation.point.tree</field>
+        <field name="model">isp.aggregation.point</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="switch_model_no"/>
+                <field name="pop_latitude"/>
+                <field name="pop_longitude"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_isp_aggregation_point_form" model="ir.ui.view">
+        <field name="name">isp.aggregation.point.form</field>
+        <field name="model">isp.aggregation.point</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="switch_model_no"/>
+                        <field name="pop_latitude"/>
+                        <field name="pop_longitude"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_isp_aggregation_point" model="ir.actions.act_window">
+        <field name="name">Aggregation Point List</field>
+        <field name="res_model">isp.aggregation.point</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_isp_aggregation_point"
+              name="Aggregation Point List"
+              parent="menu_configuration_root"
+              action="action_isp_aggregation_point"
+              sequence="8"/>
+
+</odoo>

@@ -1,0 +1,12 @@
+<odoo>
+    <data>
+        <record id="seq_isp_work_order" model="ir.sequence">
+            <field name="name">ISP Work Order Reference</field>
+            <field name="code">isp.work.order</field>
+            <field name="prefix">L3/W/%(day)s/%(month)s/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+            <field name="implementation">no_gap</field>
+        </record>
+    </data>
+</odoo>

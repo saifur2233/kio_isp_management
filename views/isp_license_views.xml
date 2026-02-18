@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="isp_license_view_tree" model="ir.ui.view">
+        <field name="name">isp.license.tree</field>
+        <field name="model">isp.license</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="isp_license_view_form" model="ir.ui.view">
+        <field name="name">isp.license.form</field>
+        <field name="model">isp.license</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" style="font-size: min(4vw, 2.6rem);"/>
+                        </h1>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_isp_license_type" model="ir.actions.act_window">
+        <field name="name">License Type</field>
+        <field name="res_model">isp.license</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <menuitem id="menu_isp_license"
+              name="License Type"
+              parent="menu_configuration_root"
+              action="action_isp_license_type"
+              sequence="3"/>
+
+</odoo>

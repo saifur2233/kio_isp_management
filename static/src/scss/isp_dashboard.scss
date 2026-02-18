@@ -1,0 +1,293 @@
+.kio-isp-dashboard {
+  /* IMPORTANT: do not use global * overflow hidden */
+  height: 100%;
+}
+
+.kio-isp-loading {
+  padding: 16px;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+:root {
+  --primary: #1a5f7a;
+  --accent: #2ba3c8;
+  --light-accent: #4ec8e3;
+  --dark: #0f3a4a;
+  --light-bg: #f5f7fa;
+  --white: #ffffff;
+  --text-dark: #2c3e50;
+  --border-color: #e0e6ed;
+}
+
+.kio-isp-dashboard .top-bar {
+  background: linear-gradient(135deg, var(--light-accent) 0%, var(--primary) 100%);
+  padding: 20px 30px;
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.kio-isp-dashboard .top-bar h1 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.kio-isp-dashboard .month-btn {
+  background-color: var(--dark);
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.kio-isp-dashboard .month-btn:hover {
+  background-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.kio-isp-dashboard .sidebar {
+  background-color: var(--white);
+  border-right: 1px solid var(--border-color);
+  padding: 30px 0;
+  min-height: calc(100vh - 80px);
+  position: fixed;
+  left: 0;
+  width: 280px;
+  overflow-y: auto;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.kio-isp-dashboard .sidebar-item {
+  padding: 15px 25px;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  border-left: 4px solid transparent;
+  position: relative;
+}
+.kio-isp-dashboard .sidebar-item i {
+  width: 20px;
+  transition: all 0.3s ease;
+}
+.kio-isp-dashboard .sidebar-item:hover {
+  background-color: var(--light-bg);
+  border-left-color: var(--accent);
+  padding-left: 35px;
+  color: var(--accent);
+}
+.kio-isp-dashboard .sidebar-item.active {
+  background-color: var(--light-bg);
+  border-left-color: var(--accent);
+  color: var(--accent);
+}
+
+.kio-isp-dashboard .main-content {
+  margin-left: 280px;
+  padding: 30px;
+  height: calc(100vh - 80px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.kio-isp-dashboard .greeting {
+  margin-bottom: 30px;
+  animation: slideInDown 0.6s ease;
+}
+.kio-isp-dashboard .greeting h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 5px;
+}
+.kio-isp-dashboard .greeting p {
+  color: #7f8c8d;
+  font-size: 15px;
+}
+
+.kio-isp-dashboard .stat-card {
+  background: linear-gradient(135deg, var(--light-accent) 0%, var(--accent) 100%);
+  color: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(43, 163, 200, 0.2);
+  animation: fadeInUp 0.6s ease backwards;
+}
+.kio-isp-dashboard .stat-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transition: all 0.6s ease;
+}
+.kio-isp-dashboard .stat-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(43, 163, 200, 0.3);
+}
+.kio-isp-dashboard .stat-card:hover::before {
+  top: -25%;
+  right: -25%;
+}
+
+.kio-isp-dashboard .stat-card-label {
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.95;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.kio-isp-dashboard .stat-card-value {
+  font-size: 28px;
+  font-weight: 700;
+  margin-top: 10px;
+  position: relative;
+  z-index: 1;
+}
+.kio-isp-dashboard .stat-card-icon {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 32px;
+  opacity: 0.3;
+  transition: all 0.3s ease;
+}
+.kio-isp-dashboard .stat-card:hover .stat-card-icon {
+  transform: rotate(20deg) scale(1.1);
+  opacity: 0.5;
+}
+
+.kio-isp-dashboard .chart-card {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px;
+  animation: fadeInUp 0.6s ease backwards;
+  transition: all 0.3s ease;
+}
+.kio-isp-dashboard .chart-card:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  transform: translateY(-5px);
+}
+.kio-isp-dashboard .chart-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.kio-isp-dashboard .chart-title i {
+  color: var(--accent);
+  font-size: 18px;
+}
+
+.kio-isp-dashboard .summary-card {
+  background: linear-gradient(135deg, var(--primary) 0%, #0d4a5f 100%);
+  color: white;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: fadeInUp 0.6s ease backwards;
+  box-shadow: 0 5px 15px rgba(26, 95, 122, 0.2);
+}
+.kio-isp-dashboard .summary-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 35px rgba(26, 95, 122, 0.3);
+}
+.kio-isp-dashboard .summary-card-label {
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+.kio-isp-dashboard .summary-card-value {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.kio-isp-dashboard .perf-metrics {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  animation: fadeInUp 0.6s ease backwards;
+  animation-delay: 0.2s;
+}
+.kio-isp-dashboard .metric {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  flex: 1;
+  min-width: 200px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+.kio-isp-dashboard .metric:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+}
+.kio-isp-dashboard .metric-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.kio-isp-dashboard .metric-label {
+  font-size: 12px;
+  color: #7f8c8d;
+  font-weight: 600;
+}
+
+@keyframes slideInDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.kio-isp-dashboard ::-webkit-scrollbar { width: 8px; }
+.kio-isp-dashboard ::-webkit-scrollbar-track { background: var(--light-bg); }
+.kio-isp-dashboard ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+.kio-isp-dashboard ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+@media (max-width: 768px) {
+  .kio-isp-dashboard .sidebar {
+    transform: translateX(-100%);
+    z-index: 1000;
+    width: 250px;
+    transition: transform 0.3s ease;
+  }
+  .kio-isp-dashboard .main-content { margin-left: 0; }
+  .kio-isp-dashboard .greeting h2 { font-size: 24px; }
+  .kio-isp-dashboard .stat-card-value { font-size: 22px; }
+}

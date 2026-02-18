@@ -17,9 +17,9 @@ class IspBillingCycle(models.Model):
         readonly=True
     )
     day = fields.Integer(string='Day')
-    amount = fields.Monetary(string='Amount', currency_field='currency_id')
+    amount = fields.Monetary(string='Total Amount', currency_field='currency_id')
     percentage = fields.Float(string='Percentage')
-    total_amount = fields.Monetary(string='Total Amount', compute="_compute_total_amount")
+    total_amount = fields.Monetary(string='Installment Amount', compute="_compute_total_amount")
 
     @api.depends('amount', 'percentage')
     def _compute_total_amount(self):

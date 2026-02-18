@@ -178,3 +178,12 @@ class IspWorkOrder(models.Model):
 
     def action_marketing_revert(self):
         print("Button Clicked By Admin")
+
+
+    
+    def action_legal_confirm(self):
+        print("Button Clicked By Admin")
+
+
+    def action_legal_revert(self):
+        print("Button Clicked By Admin")

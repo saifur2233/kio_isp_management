@@ -36,7 +36,7 @@
                 <header>
                     <button name="action_confirm_work_order" string="Submit" type="object" class="oe_highlight"/>
 
-                    <!-- Add New Button -->
+                    <!-- Marketing Group Button -->
                     <button name="action_marketing_confirm"
                             string="Confirm"
                             type="object"
@@ -44,6 +44,17 @@
 
                     <button name="action_marketing_revert"
                             string="Revert"
+                            type="object"
+                            class="oe_highlight"/>
+
+                    <!-- Legal Group Button -->
+                    <button name="action_legal_confirm"
+                            string="Legal Confirm"
+                            type="object"
+                            class="oe_highlight"/>
+
+                    <button name="action_legal_revert"
+                            string="Legal Revert"
                             type="object"
                             class="oe_highlight"/>
 

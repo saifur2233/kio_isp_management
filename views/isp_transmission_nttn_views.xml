@@ -86,6 +86,8 @@
                                     <tree editable="bottom" create="1" edit="1" delete="1" class="o_tree_view o_tree_view_compact kio_capacity_tree">
                                         <field name="type_id"/>
                                         <field name="capacity" string="Capacity" class="isp_capacity_col"/>
+                                        <field name="vlan_port"/>
+                                        <field name="ip_address"/>
                                     </tree>
                                 </field>
                                 <div class="kio_capacity_totals_grid">

@@ -48,25 +48,25 @@
 }
 
 /* Prefix labels */
-.kio_survey_bw_scope .kio_capacity_tree table tfoot td:nth-child(2)::before {
+.kio_survey_bw_scope .kio_capacity_tree table tfoot td:nth-child(1)::before {
     content: "Data Capacity: ";
     font-weight: 600;
     margin-right: 4px;
 }
 
-.kio_survey_bw_scope .kio_capacity_tree table tfoot td:nth-child(5)::before {
+.kio_survey_bw_scope .kio_capacity_tree table tfoot td:nth-child(4)::before {
     content: "Grand Total: ";
     font-weight: 600;
     margin-right: 4px;
 }
 
-.kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td:nth-child(2)::before {
+.kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td:nth-child(1)::before {
     content: "Data Capacity: ";
     font-weight: 600;
     margin-right: 4px;
 }
 
-.kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td:nth-child(5)::before {
+.kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td:nth-child(4)::before {
     content: "Grand Total: ";
     font-weight: 600;
     margin-right: 4px;

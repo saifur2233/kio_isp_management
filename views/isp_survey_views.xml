@@ -149,7 +149,7 @@
                     </group>
                     <notebook>
                         <page string="Product &amp; Billing Details">
-                            <div class="kio_survey_bw_scope">
+                            <div class="kio_work_order_product_billing">
                                 <div class="kio_product_tables o_row">
                                     <div class="o_col-6">
                                         <separator string="Product Details"/>

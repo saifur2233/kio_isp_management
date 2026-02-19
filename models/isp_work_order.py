@@ -149,6 +149,18 @@ class IspWorkOrder(models.Model):
             order.work_state = 'work_order_confirmed'
         return self.action_open_work_order()
 
+    def action_add_capacity_line(self):
+        self.ensure_one()
+        if not self.survey_id:
+            return True
+        self.env['isp.capacity.type'].create({'survey_id': self.survey_id.id})
+        return True
+
+    def action_add_billing_cycle_line(self):
+        self.ensure_one()
+        self.env['isp.billing.cycle'].create({'work_order_id': self.id})
+        return True
+
     def action_open_work_order(self):
         self.ensure_one()
         form_view = self.env.ref('kio_isp_management.view_isp_work_order_form')

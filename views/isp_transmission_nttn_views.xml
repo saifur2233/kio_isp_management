@@ -9,6 +9,8 @@
             <tree string="NTTN Transmission">
                 <field name="seq_id" decoration-bf="1"/>
                 <field name="marketing_id" string="Marketing Ref"/>
+                <field name="nttn_link_id"/>
+                <field name="nttn_provider_name"/>
                 <field name="district"/>
                 <field name="upazila"/>
                 <field name="area"/>
@@ -57,6 +59,7 @@
                                    string="Marketing Ref"
                                    readonly="1"
                                    options="{'no_create': True, 'no_open': False}"/>
+                            
                             <field name="seq_id" readonly="1"/>
                             <label for="total_capacity"/>
                             <div class="d-flex align-items-center gap-2" name="div_total_capacity">
@@ -66,6 +69,8 @@
                                 <span class="text-muted fw-semibold">MB</span>
                             </div>
                             <field name="vlan_range"/>
+                            <field name="nttn_link_id"/>
+                            <field name="nttn_provider_name"/>
                         </group>
 
                         <group string="Location">

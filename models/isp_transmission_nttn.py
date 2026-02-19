@@ -18,6 +18,17 @@ class IspTransmissionNTTN(models.Model):
         tracking=True,
         help='Marketing record linked to this NTTN survey.'
     )
+    nttn_link_id = fields.Char(
+        string='NTTN Link ID',
+        tracking=True,
+        help='Identifier for the NTTN link.'
+    )
+    nttn_provider_name = fields.Many2one(
+        'isp.nttn.provider',
+        string='NTTN Provider',
+        tracking=True,
+        help='Selected NTTN provider for this transmission.'
+    )
 
     seq_id = fields.Char(string='ID', readonly=True, tracking=True,
                          help='Unique survey identifier propagated from marketing.')

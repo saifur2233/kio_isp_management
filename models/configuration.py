@@ -113,3 +113,15 @@ class IspCapacityMaster(models.Model):
     _sql_constraints = [
         ('name_unique', 'UNIQUE(name)', 'This capacity name already exists!'),
     ]
+
+
+class IspNttnProvider(models.Model):
+    _name = 'isp.nttn.provider'
+    _description = 'NTTN Provider'
+
+    name = fields.Char(required=True)
+    active = fields.Boolean(default=True, invisible=True)
+
+    _sql_constraints = [
+        ('name_unique', 'UNIQUE(name)', 'This provider name already exists!'),
+    ]

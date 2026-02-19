@@ -38,12 +38,12 @@
 
                     <!-- Marketing Group Button -->
                     <button name="action_marketing_confirm"
-                            string="Confirm"
+                            string="Marketing Confirm"
                             type="object"
                             class="oe_highlight"/>
 
                     <button name="action_marketing_revert"
-                            string="Revert"
+                            string="Marketing Revert"
                             type="object"
                             class="oe_highlight"/>
 
@@ -98,7 +98,7 @@
                             <field name="billing_person_designation"/>
                             
                             <separator string="Customer Address"/>
-                            <field name="division"/>
+                            <field name="division" required="1"/>
                             <field name="district_id" domain="[(&apos;division&apos;, &apos;=&apos;, division)]" required="True"/>
                             <field name="upazila_id" domain="[(&apos;district_id&apos;, &apos;=&apos;, district_id)]" required="True"/>
                             <field name="area"/>

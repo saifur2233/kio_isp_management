@@ -79,6 +79,10 @@
                             <field name="area" readonly="1"/>
                             <field name="latitude" readonly="1"/>
                             <field name="longitude" readonly="1"/>
+                            <field name="aggregation_point_id"/>
+                            <field name="aggregation_switch_model_no" readonly="1"/>
+                            <field name="aggregation_pop_latitude" readonly="1"/>
+                            <field name="aggregation_pop_longitude" readonly="1"/>
                             <field name="kam"/>
                         </group>
                     </group>

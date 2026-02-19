@@ -29,6 +29,27 @@ class IspTransmissionNTTN(models.Model):
         tracking=True,
         help='Selected NTTN provider for this transmission.'
     )
+    aggregation_point_id = fields.Many2one(
+        'isp.aggregation.point',
+        string='Aggregation Point',
+        tracking=True,
+        help='Aggregation point associated with this transmission.'
+    )
+    aggregation_switch_model_no = fields.Char(
+        string='Switch Model No',
+        related='aggregation_point_id.switch_model_no',
+        readonly=True,
+    )
+    aggregation_pop_latitude = fields.Char(
+        string='POP Latitude',
+        related='aggregation_point_id.pop_latitude',
+        readonly=True,
+    )
+    aggregation_pop_longitude = fields.Char(
+        string='POP Longitude',
+        related='aggregation_point_id.pop_longitude',
+        readonly=True,
+    )
 
     seq_id = fields.Char(string='ID', readonly=True, tracking=True,
                          help='Unique survey identifier propagated from marketing.')

@@ -180,7 +180,7 @@ class IspWorkOrder(models.Model):
         print("Button Clicked By Admin")
 
 
-    
+
     def action_legal_confirm(self):
         print("Button Clicked By Admin")
 

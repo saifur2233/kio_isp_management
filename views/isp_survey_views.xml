@@ -216,7 +216,7 @@
         <field name="model">isp.survey</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name" string="Reference"/>
+                <field name="name" string="Reference" decoration-bf="1"/>
                 <field name="customer_name"/>
                 <field name="user_id"/>
                 <field name="total_capacity" optional="show"/>
@@ -415,8 +415,7 @@
         <field name="model">isp.work.order</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="work_order_name"/>
-                <field name="work_order_name"/>
+                <field name="work_order_name" decoration-bf="1"/>
                 <field name="name"/>
                 <field name="customer_name"/>
                 <field name="user_id"/>

@@ -81,27 +81,17 @@
                     <separator string="Capacity Details"/>
                     <div class="o_row">
                         <div class="o_col-6">
-                            <div name="capacity_lines_group" class="kio_capacity_layout_fix">
+                            <div name="capacity_lines_group" class="kio_capacity_layout_fix kio_nttn_capacity_scope">
                                 <field name="capacity_line_ids" nolabel="1" class="kio_capacity_one2many">
                                     <tree editable="bottom" create="1" edit="1" delete="1" class="o_tree_view o_tree_view_compact kio_capacity_tree">
                                         <field name="type_id"/>
-                                        <field name="capacity" string="Capacity" class="isp_capacity_col"/>
+                                        <field name="capacity" string="Capacity" class="isp_capacity_col" sum="Data Capacity"/>
                                         <field name="vlan_port"/>
                                         <field name="ip_address"/>
                                     </tree>
                                 </field>
-                                <div class="kio_capacity_totals_grid">
-                                    <div class="kio_capacity_total_cell kio_capacity_add_line_cell">
-                                        <button name="action_add_capacity_line" type="object" string="Add a line" class="btn btn-link p-0 kio_capacity_add_line_btn"/>
-                                    </div>
-                                    <div class="kio_capacity_total_cell kio_capacity_data_cell">
-                                        <span class="o_td_label o_form_label mb-0">Data Capacity:</span>
-                                        <field name="total_capacity" nolabel="1" readonly="1" class="oe_inline fw-bold text-end"/>
-                                        <span class="text-muted fw-semibold">MB</span>
-                                    </div>
-                                    <div class="kio_capacity_total_cell"/>
-                                    <div class="kio_capacity_total_cell"/>
-                                    <div class="kio_capacity_total_cell kio_capacity_total_cell_end"/>
+                                <div class="mt-2" style="text-align:left;">
+                                    <button name="action_add_capacity_line" type="object" string="Add a line" class="btn btn-link p-0 kio_capacity_add_line_btn"/>
                                 </div>
                             </div>
                         </div>

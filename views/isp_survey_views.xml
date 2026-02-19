@@ -185,9 +185,10 @@
                                         <field name="billing_cycle_ids" nolabel="1">
                                             <tree editable="bottom" create="0" class="kio_work_order_billing_tree">
                                                 <field name="day"/>
-                                                <field name="amount" widget="monetary" sum="Total Amount"/>
+                                                <field name="currency_id" column_invisible="1"/>
+                                                <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total Amount"/>
                                                 <field name="percentage" widget="percentage" sum="Total %"/>
-                                                <field name="total_amount" widget="monetary" sum="Installment Total"/>
+                                                <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Installment Total"/>
                                             </tree>
                                         </field>
                                         <div class="mt-2" style="text-align:left;">

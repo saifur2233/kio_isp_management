@@ -271,6 +271,12 @@
     margin-left: 4px;
 }
 
+.kio_work_order_product_billing .kio_work_order_billing_tree table tfoot td:nth-child(1)::after {
+    content: "Grand Total: ";
+    font-weight: 600;
+    margin-left: 4px;
+}
+
 .kio_work_order_product_billing .kio_capacity_tree table tfoot td:nth-child(4)::after,
 .kio_work_order_product_billing .kio_work_order_billing_tree table tfoot td:nth-child(2)::after,
 .kio_work_order_product_billing .kio_work_order_billing_tree table tfoot td:nth-child(4)::after {

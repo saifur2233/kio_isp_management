@@ -58,6 +58,12 @@ class IspWorkOrder(models.Model):
         compute='_compute_total_amount',
         store=True
     )
+    total_offer_amount = fields.Monetary(
+        string='Total Offer Amount',
+        currency_field='currency_id',
+        compute='_compute_total_offer_amount',
+        store=True
+    )
     partner_id = fields.Many2one(
         'res.partner',
         string='Customer Partner',
@@ -190,6 +196,16 @@ class IspWorkOrder(models.Model):
                 price = line.existing_price or 0.0
                 total += qty * price
             order.total_amount = total
+
+    @api.depends('offer_capacity_type_ids.capacity', 'offer_capacity_type_ids.offer_price')
+    def _compute_total_offer_amount(self):
+        for order in self:
+            total = 0.0
+            for line in order.offer_capacity_type_ids:
+                qty = line.capacity or 0.0
+                price = line.offer_price or 0.0
+                total += qty * price
+            order.total_offer_amount = total
 
     def _compute_partner(self):
         Client = self.env['isp.client']

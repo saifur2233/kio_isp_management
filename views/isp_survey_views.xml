@@ -267,8 +267,10 @@
                     <field name="state_draft_date" invisible="1"/>
                     <field name="state_done_date" invisible="1"/>
                     <field name="state_work_order_date" invisible="1"/>
+                    <field name="state_work_order_stop_date" invisible="1"/>
                     <field name="dur_draft_to_done_display" invisible="1"/>
                     <field name="dur_done_to_work_display" invisible="1"/>
+                    <field name="dur_work_order_active_display" invisible="1"/>
                     <field name="create_date" invisible="1"/>
                 </header>
                 <sheet>

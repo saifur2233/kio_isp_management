@@ -55,6 +55,7 @@ export class IspStateDurationStatusBar extends StatusBarField {
         const draftAt = this._toDate(data.state_draft_date) || this._toDate(data.create_date);
         const doneAt = this._toDate(data.state_done_date);
         const workAt = this._toDate(data.state_work_order_date);
+        const workStopAt = this._toDate(data.state_work_order_stop_date);
 
         if (data.state === "draft" && draftAt) {
             return { state: "draft", sec: Math.floor((now - draftAt) / 1000) };
@@ -62,7 +63,7 @@ export class IspStateDurationStatusBar extends StatusBarField {
         if (data.state === "done" && doneAt) {
             return { state: "done", sec: Math.floor((now - doneAt) / 1000) };
         }
-        if (data.state === "work_order" && workAt) {
+        if (data.state === "work_order" && workAt && !workStopAt) {
             return { state: "work_order", sec: Math.floor((now - workAt) / 1000) };
         }
         return null;
@@ -71,6 +72,9 @@ export class IspStateDurationStatusBar extends StatusBarField {
     _getSurveyItems(items, data) {
         const fixedDraftDone = data.dur_draft_to_done_display || "";
         const fixedDoneWork = data.dur_done_to_work_display || "";
+        const fixedWorkOrderActive = data.dur_work_order_active_display || "";
+        const workAt = this._toDate(data.state_work_order_date);
+        const workStopAt = this._toDate(data.state_work_order_stop_date);
         const running = this._getSurveyRunningDuration(data);
 
         return items.map((it) => {
@@ -95,6 +99,10 @@ export class IspStateDurationStatusBar extends StatusBarField {
             if (it.value === "work_order") {
                 if (data.state === "work_order" && running?.state === "work_order") {
                     extra = this._formatSeconds(running.sec);
+                } else if (fixedWorkOrderActive) {
+                    extra = fixedWorkOrderActive;
+                } else if (workAt && workStopAt && workStopAt > workAt) {
+                    extra = this._formatSeconds(Math.floor((workStopAt - workAt) / 1000));
                 }
             }
 

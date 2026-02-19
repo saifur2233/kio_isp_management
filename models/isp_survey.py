@@ -129,6 +129,7 @@ class IspSurvey(models.Model):
     state_draft_date = fields.Datetime(string="Draft At", readonly=True, copy=False)
     state_done_date = fields.Datetime(string="Survey Done At", readonly=True, copy=False)
     state_work_order_date = fields.Datetime(string="Work Order Created At", readonly=True, copy=False)
+    state_work_order_stop_date = fields.Datetime(string="Work Order Stage Stopped At", readonly=True, copy=False)
 
     # ────────────────────────────────────────────────
     # ✅ STATE DURATIONS (stored + display for OWL widget)
@@ -151,6 +152,16 @@ class IspSurvey(models.Model):
     )
     dur_done_to_work_display = fields.Char(
         string="Done → Work",
+        compute="_compute_state_durations",
+        store=True
+    )
+    dur_work_order_active_sec = fields.Integer(
+        string="Work Order Active (sec)",
+        compute="_compute_state_durations",
+        store=True
+    )
+    dur_work_order_active_display = fields.Char(
+        string="Work Order Active",
         compute="_compute_state_durations",
         store=True
     )
@@ -256,12 +267,13 @@ class IspSurvey(models.Model):
     # ────────────────────────────────────────────────
     # ✅ Compute state durations
     # ────────────────────────────────────────────────
-    @api.depends('state_draft_date', 'state_done_date', 'state_work_order_date', 'create_date')
+    @api.depends('state_draft_date', 'state_done_date', 'state_work_order_date', 'state_work_order_stop_date', 'create_date')
     def _compute_state_durations(self):
         for rec in self:
             draft_dt = rec.state_draft_date or rec.create_date
             done_dt = rec.state_done_date
             work_dt = rec.state_work_order_date
+            work_stop_dt = rec.state_work_order_stop_date
 
             sec1 = 0
             if draft_dt and done_dt:
@@ -271,10 +283,16 @@ class IspSurvey(models.Model):
             if done_dt and work_dt:
                 sec2 = int((work_dt - done_dt).total_seconds())
 
+            sec3 = 0
+            if work_dt and work_stop_dt and work_stop_dt > work_dt:
+                sec3 = int((work_stop_dt - work_dt).total_seconds())
+
             rec.dur_draft_to_done_sec = sec1
             rec.dur_done_to_work_sec = sec2
+            rec.dur_work_order_active_sec = sec3
             rec.dur_draft_to_done_display = self._format_seconds(sec1) if sec1 else ""
             rec.dur_done_to_work_display = self._format_seconds(sec2) if sec2 else ""
+            rec.dur_work_order_active_display = self._format_seconds(sec3) if sec3 else ""
 
     # ────────────────────────────────────────────────
 

@@ -147,16 +147,28 @@ class IspWorkOrder(models.Model):
             return super().write(vals)
 
         now = fields.Datetime.now()
+        surveys_to_stop = self.filtered(
+            lambda rec: rec.work_state == 'work_order'
+            and new_state != 'work_order'
+            and rec.survey_id
+            and not rec.survey_id.state_work_order_stop_date
+        ).mapped('survey_id')
+
         if len(self) == 1:
             if not self[state_date_field]:
                 vals = dict(vals, **{state_date_field: now})
-            return super().write(vals)
+            result = super().write(vals)
+            if surveys_to_stop:
+                surveys_to_stop.sudo().write({'state_work_order_stop_date': now})
+            return result
 
         for rec in self:
             rec_vals = dict(vals)
             if not rec[state_date_field]:
                 rec_vals[state_date_field] = now
             super(IspWorkOrder, rec).write(rec_vals)
+        if surveys_to_stop:
+            surveys_to_stop.sudo().write({'state_work_order_stop_date': now})
         return True
 
     def _get_work_state_date_field(self, state):

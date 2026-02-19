@@ -166,17 +166,18 @@
                                 <div class="kio_product_tables o_row">
                                     <div class="o_col-6">
                                         <separator string="Product Details"/>
-                                        <group col="1" name="capacity_lines_group" class="o_group_no_spacing o_group_no_padding">
-                                            <field name="capacity_type_ids" nolabel="1" class="kio_capacity_one2many">
-                                                <tree editable="bottom" create="0" class="o_tree_view o_tree_view_compact kio_capacity_tree">
+                                        <group col="1" name="offer_capacity_lines_group" class="o_group_no_spacing o_group_no_padding">
+                                            <field name="offer_capacity_type_ids" nolabel="1" class="kio_capacity_one2many">
+                                                <tree editable="bottom" create="0" class="o_tree_view o_tree_view_compact kio_offer_capacity_tree">
                                                     <field name="type_id"/>
                                                     <field name="capacity" string="MBPS" sum="Data Capacity" class="isp_capacity_col"/>
-                                                    <field name="existing_price" string="Price"/>
-                                                    <field name="existing_total_price" string="Total Price" sum="Grand Total"/>
+                                                    <field name="buffer_bandwidth" string="Buffer Bandwidth"/>
+                                                    <field name="offer_price" string="Offer Price"/>
+                                                    <field name="offer_total_price" string="Total Offer Price" sum="Grand Total"/>
                                                 </tree>
                                             </field>
                                             <div class="mt-2" style="text-align:left;">
-                                                <button name="action_add_capacity_line"
+                                                <button name="action_add_offer_capacity_line"
                                                         type="object" string="Add a line"
                                                         class="btn btn-link p-0 kio_capacity_add_line_btn"/>
                                             </div>

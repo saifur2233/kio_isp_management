@@ -512,6 +512,18 @@ class IspSurvey(models.Model):
         if not work_order:
             work_order = WorkOrder.create({'survey_id': self.id})
 
+        if not self.capacity_type_ids and self.offer_capacity_type_ids:
+            Capacity = self.env['isp.capacity.type'].sudo()
+            for offer_line in self.offer_capacity_type_ids:
+                Capacity.create({
+                    'survey_id': self.id,
+                    'type_id': offer_line.type_id.id,
+                    'parameter': offer_line.parameter,
+                    'capacity': offer_line.capacity,
+                    'buffer_bandwidth': offer_line.buffer_bandwidth,
+                    'existing_price': offer_line.offer_price,
+                })
+
         self.work_order_id = work_order
 
         form_view = self.env.ref('kio_isp_management.view_isp_work_order_form')

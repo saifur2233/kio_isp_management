@@ -49,7 +49,7 @@ export class IspStateDurationStatusBar extends StatusBarField {
         return Number.isNaN(parsed.getTime()) ? null : parsed;
     }
 
-    _getRunningDuration(data) {
+    _getSurveyRunningDuration(data) {
         const now = new Date();
 
         const draftAt = this._toDate(data.state_draft_date) || this._toDate(data.create_date);
@@ -68,16 +68,10 @@ export class IspStateDurationStatusBar extends StatusBarField {
         return null;
     }
 
-    getAllItems() {
-        // trigger rerender
-        this._tick.n;
-
-        const items = super.getAllItems();
-        const data = this.props.record.data;
-
+    _getSurveyItems(items, data) {
         const fixedDraftDone = data.dur_draft_to_done_display || "";
         const fixedDoneWork = data.dur_done_to_work_display || "";
-        const running = this._getRunningDuration(data);
+        const running = this._getSurveyRunningDuration(data);
 
         return items.map((it) => {
             let extra = "";
@@ -108,6 +102,84 @@ export class IspStateDurationStatusBar extends StatusBarField {
             const label = extra ? `${baseLabel} (${extra})` : baseLabel;
             return { ...it, label, baseLabel, extraDuration: extra };
         });
+    }
+
+    _getWorkStateDateMap(data) {
+        const workOrderStartedAt =
+            this._toDate(data.work_state_work_order_date) ||
+            this._toDate(data.state_work_order_date) ||
+            this._toDate(data.create_date);
+        return {
+            work_order: workOrderStartedAt,
+            sell_confirm: this._toDate(data.work_state_sell_confirm_date),
+            marketing_confirm: this._toDate(data.work_state_marketing_confirm_date),
+            marketing_revert: this._toDate(data.work_state_marketing_revert_date),
+            legal_confirm: this._toDate(data.work_state_legal_confirm_date),
+            legal_revert: this._toDate(data.work_state_legal_revert_date),
+        };
+    }
+
+    _getWorkRunningDuration(data, stateDates) {
+        const state = data.work_state;
+        const startedAt = stateDates[state];
+        if (!startedAt) {
+            return null;
+        }
+        const now = new Date();
+        return { state, sec: Math.floor((now - startedAt) / 1000) };
+    }
+
+    _getNextStateDate(currentDate, stateDates) {
+        if (!currentDate) {
+            return null;
+        }
+        let nextDate = null;
+        for (const dt of Object.values(stateDates)) {
+            if (!dt || dt <= currentDate) {
+                continue;
+            }
+            if (!nextDate || dt < nextDate) {
+                nextDate = dt;
+            }
+        }
+        return nextDate;
+    }
+
+    _getWorkItems(items, data) {
+        const stateDates = this._getWorkStateDateMap(data);
+        const running = this._getWorkRunningDuration(data, stateDates);
+
+        return items.map((it) => {
+            let extra = "";
+            const stateValue = it.value;
+
+            const startedAt = stateDates[stateValue];
+            if (data.work_state === stateValue && running?.state === stateValue) {
+                extra = this._formatSeconds(Math.max(0, running.sec));
+            } else if (startedAt) {
+                const nextAt = this._getNextStateDate(startedAt, stateDates);
+                if (nextAt) {
+                    const sec = Math.floor((nextAt - startedAt) / 1000);
+                    extra = this._formatSeconds(Math.max(0, sec));
+                }
+            }
+
+            const baseLabel = it.label;
+            const label = extra ? `${baseLabel} (${extra})` : baseLabel;
+            return { ...it, label, baseLabel, extraDuration: extra };
+        });
+    }
+
+    getAllItems() {
+        // trigger rerender
+        this._tick.n;
+
+        const items = super.getAllItems();
+        const data = this.props.record.data;
+        if (this.props.name === "work_state") {
+            return this._getWorkItems(items, data);
+        }
+        return this._getSurveyItems(items, data);
     }
 }
 

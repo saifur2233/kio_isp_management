@@ -45,6 +45,12 @@ class IspWorkOrder(models.Model):
         default='work_order',
         tracking=True
     )
+    work_state_work_order_date = fields.Datetime(string="Work Order Created At", readonly=True, copy=False)
+    work_state_sell_confirm_date = fields.Datetime(string="Sell Submit At", readonly=True, copy=False)
+    work_state_marketing_confirm_date = fields.Datetime(string="Marketing Confirm At", readonly=True, copy=False)
+    work_state_marketing_revert_date = fields.Datetime(string="Marketing Revert At", readonly=True, copy=False)
+    work_state_legal_confirm_date = fields.Datetime(string="Legal Confirm At", readonly=True, copy=False)
+    work_state_legal_revert_date = fields.Datetime(string="Legal Revert At", readonly=True, copy=False)
 
     total_amount = fields.Monetary(
         string='Total Amount',
@@ -119,7 +125,49 @@ class IspWorkOrder(models.Model):
     def create(self, vals):
         if vals.get('work_order_name', _('New')) == _('New'):
             vals['work_order_name'] = self.env['ir.sequence'].next_by_code('isp.work.order') or _('New')
+
+        initial_state = vals.get('work_state') or 'work_order'
+        initial_state_date_field = self._get_work_state_date_field(initial_state)
+        if initial_state_date_field and not vals.get(initial_state_date_field):
+            if initial_state == 'work_order' and vals.get('survey_id'):
+                survey = self.env['isp.survey'].browse(vals['survey_id'])
+                vals[initial_state_date_field] = survey.state_work_order_date or fields.Datetime.now()
+            else:
+                vals[initial_state_date_field] = fields.Datetime.now()
+
         return super().create(vals)
+
+    def write(self, vals):
+        if 'work_state' not in vals:
+            return super().write(vals)
+
+        new_state = vals.get('work_state')
+        state_date_field = self._get_work_state_date_field(new_state)
+        if not state_date_field:
+            return super().write(vals)
+
+        now = fields.Datetime.now()
+        if len(self) == 1:
+            if not self[state_date_field]:
+                vals = dict(vals, **{state_date_field: now})
+            return super().write(vals)
+
+        for rec in self:
+            rec_vals = dict(vals)
+            if not rec[state_date_field]:
+                rec_vals[state_date_field] = now
+            super(IspWorkOrder, rec).write(rec_vals)
+        return True
+
+    def _get_work_state_date_field(self, state):
+        return {
+            'work_order': 'work_state_work_order_date',
+            'sell_confirm': 'work_state_sell_confirm_date',
+            'marketing_confirm': 'work_state_marketing_confirm_date',
+            'marketing_revert': 'work_state_marketing_revert_date',
+            'legal_confirm': 'work_state_legal_confirm_date',
+            'legal_revert': 'work_state_legal_revert_date',
+        }.get(state)
 
     @api.depends('capacity_type_ids.capacity', 'capacity_type_ids.existing_price')
     def _compute_total_amount(self):
@@ -146,7 +194,7 @@ class IspWorkOrder(models.Model):
             missing_price = order.capacity_type_ids.filtered(lambda l: not l.existing_price)
             if missing_price:
                 raise ValidationError(_("Please set the Existing Price on every line before confirming the work order."))
-            order.work_state = 'work_order_confirmed'
+            order.work_state = 'sell_confirm'
         return self.action_open_work_order()
 
     def action_add_capacity_line(self):
@@ -185,17 +233,25 @@ class IspWorkOrder(models.Model):
 
 
     def action_marketing_confirm(self):
-        print("Button Clicked By Admin")
+        for order in self:
+            order.work_state = 'marketing_confirm'
+        return self.action_open_work_order()
 
 
     def action_marketing_revert(self):
-        print("Button Clicked By Admin")
+        for order in self:
+            order.work_state = 'marketing_revert'
+        return self.action_open_work_order()
 
 
 
     def action_legal_confirm(self):
-        print("Button Clicked By Admin")
+        for order in self:
+            order.work_state = 'legal_confirm'
+        return self.action_open_work_order()
 
 
     def action_legal_revert(self):
-        print("Button Clicked By Admin")
+        for order in self:
+            order.work_state = 'legal_revert'
+        return self.action_open_work_order()

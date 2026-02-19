@@ -34,31 +34,44 @@
         <field name="arch" type="xml">
             <form string="Work Order">
                 <header>
-                    <button name="action_confirm_work_order" string="Submit" type="object" class="oe_highlight"/>
+                    <button name="action_confirm_work_order" string="Submit" type="object" class="oe_highlight" invisible="work_state != 'work_order'"/>
 
                     <!-- Marketing Group Button -->
                     <button name="action_marketing_confirm"
                             string="Marketing Confirm"
                             type="object"
-                            class="oe_highlight"/>
+                            class="oe_highlight"
+                            invisible="work_state != 'sell_confirm'"/>
 
                     <button name="action_marketing_revert"
                             string="Marketing Revert"
                             type="object"
-                            class="oe_highlight"/>
+                            class="oe_highlight"
+                            invisible="work_state != 'sell_confirm'"/>
 
                     <!-- Legal Group Button -->
                     <button name="action_legal_confirm"
                             string="Legal Confirm"
                             type="object"
-                            class="oe_highlight"/>
+                            class="oe_highlight"
+                            invisible="work_state != 'marketing_confirm'"/>
 
                     <button name="action_legal_revert"
                             string="Legal Revert"
                             type="object"
-                            class="oe_highlight"/>
+                            class="oe_highlight"
+                            invisible="work_state != 'marketing_confirm'"/>
 
-                    <field name="work_state" widget="statusbar"/>
+                    <field name="work_state" widget="isp_state_duration_statusbar"/>
+                    <field name="work_state_work_order_date" invisible="1"/>
+                    <field name="work_state_sell_confirm_date" invisible="1"/>
+                    <field name="work_state_marketing_confirm_date" invisible="1"/>
+                    <field name="work_state_marketing_revert_date" invisible="1"/>
+                    <field name="work_state_legal_confirm_date" invisible="1"/>
+                    <field name="work_state_legal_revert_date" invisible="1"/>
+                    <field name="state_work_order_date" invisible="1"/>
+                    <field name="dur_done_to_work_sec" invisible="1"/>
+                    <field name="dur_done_to_work_display" invisible="1"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -211,8 +224,8 @@
                     </notebook>
                     <separator string="Actions"/>
                     <div class="d-flex align-items-center justify-content-end gap-5">
-                        <button name="action_confirm_work_order" string="Confirm" type="object" class="oe_highlight"/>
-                        <field name="work_state" widget="statusbar"/>
+                        <button name="action_confirm_work_order" string="Confirm" type="object" class="oe_highlight" invisible="work_state != 'work_order'"/>
+                        <field name="work_state" widget="isp_state_duration_statusbar"/>
                     </div>
                 </sheet>
                 <div class="oe_chatter">

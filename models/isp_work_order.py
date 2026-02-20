@@ -282,6 +282,10 @@ class IspWorkOrder(models.Model):
 
     def action_legal_confirm(self):
         for order in self:
+            if not order.primary_link or not order.secondary_link:
+                raise ValidationError(
+                    _("Please provide both Primary Link and Secondary Link before Legal Confirm.")
+                )
             order.work_state = 'legal_confirm'
         return self.action_open_work_order()
 

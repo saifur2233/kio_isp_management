@@ -40,27 +40,27 @@
                     <button name="action_marketing_confirm"
                             string="Marketing Confirm"
                             type="object"
-                            class="oe_highlight"
-                            invisible="work_state != 'sell_confirm'"/>
+                            class="oe_highlight"/>
+                            <!-- invisible="work_state != 'sell_confirm'" -->
 
                     <button name="action_marketing_revert"
                             string="Marketing Revert"
                             type="object"
-                            class="oe_highlight"
-                            invisible="work_state != 'sell_confirm'"/>
+                            class="oe_highlight"/>
+                            <!-- invisible="work_state != 'sell_confirm'"/> -->
 
                     <!-- Legal Group Button -->
                     <button name="action_legal_confirm"
                             string="Legal Confirm"
                             type="object"
-                            class="oe_highlight"
-                            invisible="work_state != 'marketing_confirm'"/>
+                            class="oe_highlight"/>
+                            <!-- invisible="work_state != 'marketing_confirm'"/> -->
 
                     <button name="action_legal_revert"
                             string="Legal Revert"
                             type="object"
-                            class="oe_highlight"
-                            invisible="work_state != 'marketing_confirm'"/>
+                            class="oe_highlight"/>
+                            <!-- invisible="work_state != 'marketing_confirm'"/> -->
 
                     <field name="work_state" widget="isp_state_duration_statusbar"/>
                     <field name="work_state_work_order_date" invisible="1"/>

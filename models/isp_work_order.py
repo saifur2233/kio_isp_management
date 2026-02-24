@@ -122,6 +122,7 @@ class IspWorkOrder(models.Model):
         string='Revert User',)
     
     revert_reason = fields.Text(string='Revert Reason')
+    is_lacp = fields.Boolean(default=False, string="Is LACP")
     
     
 

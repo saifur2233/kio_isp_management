@@ -129,6 +129,7 @@
                             <separator string="Link Information"/>
                             <field name="primary_link"/>
                             <field name="secondary_link"/>
+                            <field name="is_lacp"/>
                             <separator string="Aggregation Point"/>
                             <field name="aggregation_point_id"/>
                             <field name="switch_model_no"/>

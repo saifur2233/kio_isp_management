@@ -37,7 +37,7 @@ class IspCapacityType(models.Model):
         compute='_compute_existing_total_price',
     )
 
-    vlan_port = fields.Char(string="VLAN Port")
+    vlan_port = fields.Char(string="VLAN ID")
     ip_address = fields.Char(string="IP Address")
 
     @api.depends('capacity', 'existing_price')

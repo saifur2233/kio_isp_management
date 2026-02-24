@@ -68,7 +68,7 @@
                                        class="o_hr_narrow_field"/>
                                 <span class="text-muted fw-semibold">MB</span>
                             </div>
-                            <field name="vlan_range"/>
+<!--                            <field name="vlan_range"/>-->
                             <field name="nttn_link_id"/>
                             <field name="nttn_provider_name"/>
                         </group>

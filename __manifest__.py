@@ -50,6 +50,7 @@ customer subscriptions, and sales team performance tracking.
         'views/isp_district_views.xml',
         'views/isp_upazila_views.xml',
         'views/isp_capacity_views.xml',
+        'views/isp_port_views.xml',
         'views/isp_nttn_provider_views.xml',
         'views/res_config_settings_views.xml',
         'views/isp_noc_views.xml',

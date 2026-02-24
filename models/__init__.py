@@ -20,6 +20,7 @@ from . import isp_aggregation_point
 from . import isp_visit_type
 from . import isp_offer_capacity_type
 from . import isp_mac_detail
+from . import isp_port
 from . import isp_survey
 from . import res_partner
 from . import isp_work_order

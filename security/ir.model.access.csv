@@ -4,6 +4,7 @@ kio_isp_management.access_isp_district,access_isp_district,kio_isp_management.mo
 kio_isp_management.access_isp_upazila,access_isp_upazila,kio_isp_management.model_isp_upazila,base.group_user,1,1,1,1
 kio_isp_management.access_isp_capacity_type,access_isp_capacity_type,kio_isp_management.model_isp_capacity_type,base.group_user,1,1,1,1
 kio_isp_management.access_isp_capacity_master,access_isp_capacity_master,kio_isp_management.model_isp_capacity_master,base.group_user,1,1,1,1
+kio_isp_management.access_isp_port_master,access_isp_port_master,kio_isp_management.model_isp_port_master,base.group_user,1,1,1,1
 kio_isp_management.access_isp_dashboard,access_isp_dashboard,kio_isp_management.model_isp_dashboard,base.group_user,1,0,1,0
 kio_isp_management.access_isp_legal,access_isp_legal,kio_isp_management.model_isp_legal,base.group_user,1,1,1,1
 kio_isp_management.access_isp_noc_management,access_isp_noc_management,kio_isp_management.model_isp_noc_management,base.group_user,1,1,1,1

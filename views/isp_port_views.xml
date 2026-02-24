@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree View -->
+    <record id="view_isp_port_master_tree" model="ir.ui.view">
+        <field name="name">isp.port.master.tree</field>
+        <field name="model">isp.port.master</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_isp_port_master_form" model="ir.ui.view">
+        <field name="name">isp.port.master.form</field>
+        <field name="model">isp.port.master</field>
+        <field name="arch" type="xml">
+            <form string="Port">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Port" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" string="Port" required="1" style="font-size: min(4vw, 2.6rem);"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_isp_port_master" model="ir.actions.act_window">
+        <field name="name">Ports</field>
+        <field name="res_model">isp.port.master</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_isp_port_master_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Port!
+            </p>
+        </field>
+    </record>
+
+    <!-- Menuitem -->
+    <menuitem
+        id="menu_isp_port_master"
+        name="Ports"
+        parent="menu_configuration_root"
+        action="action_isp_port_master"
+        sequence="3"/>
+
+</odoo>

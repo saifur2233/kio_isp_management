@@ -36,6 +36,28 @@ class IspTransmissionOwn(models.Model):
     longitude = fields.Float(string="Longitude", readonly=True, tracking=True,
                              help='Marketing-provided longitude of the site.')
 
+    aggregation_point_id = fields.Many2one(
+        'isp.aggregation.point',
+        string='Aggregation Point',
+        tracking=True,
+        help='Aggregation point associated with this transmission.'
+    )
+    aggregation_switch_model_no = fields.Char(
+        string='Switch Model No',
+        related='aggregation_point_id.switch_model_no',
+        readonly=True,
+    )
+    aggregation_pop_latitude = fields.Char(
+        string='POP Latitude',
+        related='aggregation_point_id.pop_latitude',
+        readonly=True,
+    )
+    aggregation_pop_longitude = fields.Char(
+        string='POP Longitude',
+        related='aggregation_point_id.pop_longitude',
+        readonly=True,
+    )
+
     own_remarks = fields.Text(string='OWN Remarks', tracking=True,
                                help='Surveyor remarks entered by the NTTN team.')
 
@@ -148,7 +170,11 @@ class IspTransmissionOwn(models.Model):
     )
 
     device_id = fields.Char()
-    port_number = fields.Char()
+    port_number = fields.Many2many(
+        'isp.port.master',
+        string='Port Number',
+        help='Select one or more ports from configuration.'
+    )
     device_details = fields.Char()
 
 

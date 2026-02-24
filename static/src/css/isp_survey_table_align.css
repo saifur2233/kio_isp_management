@@ -57,7 +57,7 @@
 .kio_survey_bw_scope .kio_capacity_tree table tfoot td:nth-child(4)::before {
     content: "Grand Total: ";
     font-weight: 600;
-    margin-right: 4px;
+    margin-right: -45px;
 }
 
 .kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td:nth-child(1)::before {
@@ -69,22 +69,30 @@
 .kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td:nth-child(4)::before {
     content: "Grand Total: ";
     font-weight: 600;
-    margin-right: 4px;
+    margin-right: -65px;
 }
 
 /* Units after totals */
-.kio_survey_bw_scope .kio_capacity_tree table tfoot td:nth-child(2)::after,
+/* .kio_survey_bw_scope .kio_capacity_tree table tfoot td:nth-child(2)::after,
 .kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td:nth-child(2)::after {
     content: " MBPS";
     font-weight: 600;
     margin-left: 4px;
+} */
+
+.kio_survey_bw_scope .kio_capacity_tree table tfoot td:nth-child(5).o_list_number > span,
+.kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td:nth-child(5).o_list_number > span {
+    position: relative;
+    display: inline-block;
 }
 
-.kio_survey_bw_scope .kio_capacity_tree table tfoot td:nth-child(5)::after,
-.kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td:nth-child(5)::after {
-    content: " Taka";
-    font-weight: 600;
+.kio_survey_bw_scope .kio_capacity_tree table tfoot td:nth-child(5).o_list_number > span::after,
+.kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td:nth-child(5).o_list_number > span::after {
+    content: " ৳";
+    position: absolute;
+    left: 100%;
     margin-left: 4px;
+    font-weight: 600;
 }
 
 /* Fix "...." ellipsis in footer */
@@ -267,22 +275,22 @@
     margin-right: 4px;
 }
 
-.kio_work_order_product_billing .kio_offer_capacity_tree table tfoot td:nth-child(2)::after {
+/* .kio_work_order_product_billing .kio_offer_capacity_tree table tfoot td:nth-child(2)::after {
     content: " MBPS";
     font-weight: 600;
     margin-left: 4px;
-}
+} */
 
 .kio_work_order_product_billing .kio_offer_capacity_tree table tfoot td:nth-child(4)::before {
     content: "Grand Price: ";
     font-weight: 600;
-    margin-right: 4px;
+    margin-right: -65px;
 }
 
 .kio_work_order_product_billing .kio_offer_capacity_tree table tfoot td:nth-child(5)::after {
-    content: "Taka";
+    content: "৳";
     font-weight: 600;
-    margin-right: 4px;
+    margin-right: -8px !important;
 }
 
 /* Units after totals */
@@ -304,10 +312,18 @@
     margin-left: 4px;
 }
 
+.kio_work_order_product_billing 
+.kio_work_order_billing_tree 
+table tfoot td:nth-child(1) {
+    text-align: left !important;
+}
+
 .kio_work_order_product_billing .kio_work_order_billing_tree table tfoot td:nth-child(1)::before {
     content: "Grand Total: ";
     font-weight: 600;
-    margin-left: 4px;
+    display: inline-block;
+    text-align: left !important;
+    margin-right: 4px;
 }
 
 /* .kio_work_order_product_billing .kio_capacity_tree table tfoot td:nth-child(4)::after,

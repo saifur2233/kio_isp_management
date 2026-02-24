@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_isp_survey" model="ir.sequence">
+            <field name="name">ISP Survey Reference</field>
+            <field name="code">isp.survey</field>
+            <field name="prefix">L3/SUR/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+            <field name="implementation">no_gap</field>
+        </record>
+    </data>
+</odoo>

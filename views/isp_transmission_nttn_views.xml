@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- Tree View -->
+    <record id="view_isp_transmission_nttn_tree" model="ir.ui.view">
+        <field name="name">isp.transmission.nttn.tree</field>
+        <field name="model">isp.transmission.nttn</field>
+        <field name="arch" type="xml">
+            <tree string="NTTN Transmission">
+                <field name="seq_id" decoration-bf="1"/>
+                <field name="marketing_id" string="Marketing Ref"/>
+                <field name="nttn_link_id"/>
+                <field name="nttn_provider_name"/>
+                <field name="district"/>
+                <field name="upazila"/>
+                <field name="area"/>
+                <field name="total_capacity"/>
+                <field name="latitude"/>
+                <field name="longitude"/>
+                <field name="remarks"/>
+                <field name="state" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_isp_transmission_nttn_form" model="ir.ui.view">
+        <field name="name">isp.transmission.nttn.form</field>
+        <field name="model">isp.transmission.nttn</field>
+        <field name="arch" type="xml">
+            <form string="NTTN Transmission">
+                <header>
+                    <button name="action_nttn_confirm"
+                            string="Confirm"
+                            type="object"
+                            class="oe_highlight"
+                            invisible="state != 'draft'"/>
+
+                    <button name="action_nttn_noc_confirm"
+                            string="NOC Confirm"
+                            type="object"
+                            class="oe_highlight"
+                            groups="kio_isp_management.group_isp_noc_access"
+                            invisible="state != 'confirm'"/>
+
+                    <button name="action_nttn_done"
+                            string="Done"
+                            type="object"
+                            class="btn btn-success"
+                            groups="kio_isp_management.group_isp_noc_access"
+                            invisible="state != 'noc_confirm'"/>
+
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Basic Information">
+                            <field name="marketing_id"
+                                   string="Marketing Ref"
+                                   readonly="1"
+                                   options="{'no_create': True, 'no_open': False}"/>
+                            
+                            <field name="seq_id" readonly="1"/>
+                            <label for="total_capacity"/>
+                            <div class="d-flex align-items-center gap-2" name="div_total_capacity">
+                                <field name="total_capacity"
+                                       readonly="1"
+                                       class="o_hr_narrow_field"/>
+                                <span class="text-muted fw-semibold">MB</span>
+                            </div>
+                            <field name="vlan_range"/>
+                            <field name="nttn_link_id"/>
+                            <field name="nttn_provider_name"/>
+                        </group>
+
+                        <group string="Location">
+                            <field name="district" readonly="1"/>
+                            <field name="upazila" readonly="1"/>
+                            <field name="area" readonly="1"/>
+                            <field name="latitude" readonly="1"/>
+                            <field name="longitude" readonly="1"/>
+                            <field name="aggregation_point_id"/>
+                            <field name="aggregation_switch_model_no" readonly="1"/>
+                            <field name="aggregation_pop_latitude" readonly="1"/>
+                            <field name="aggregation_pop_longitude" readonly="1"/>
+                            <field name="kam"/>
+                        </group>
+                    </group>
+
+                    <separator string="Capacity Details"/>
+                    <div class="o_row">
+                        <div class="o_col-6">
+                            <div name="capacity_lines_group" class="kio_capacity_layout_fix kio_nttn_capacity_scope">
+                                <field name="capacity_line_ids" nolabel="1" class="kio_capacity_one2many">
+                                    <tree editable="bottom" create="1" edit="1" delete="1" class="o_tree_view o_tree_view_compact kio_capacity_tree">
+                                        <field name="type_id"/>
+                                        <field name="capacity" string="Capacity" class="isp_capacity_col" sum="Data Capacity"/>
+                                        <field name="vlan_port"/>
+                                        <field name="ip_address"/>
+                                    </tree>
+                                </field>
+                                <div class="mt-2" style="text-align:left;">
+                                    <button name="action_add_capacity_line" type="object" string="Add a line" class="btn btn-link p-0 kio_capacity_add_line_btn"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="o_col-6"/>
+                    </div>
+
+                    <group string="Marketing Remarks">
+                        <field name="remarks" readonly="1" placeholder="Marketing remarks..."/>
+                    </group>
+
+                    <group string="NTTN Remarks">
+                        <field name="nttn_remarks" placeholder="Enter NTTN remarks..."/>
+                    </group>
+
+                    <notebook>
+
+                        <!-- ===================== -->
+                        <!-- TAB 1: SURVEY REPORTS -->
+                        <!-- ===================== -->
+                        <page string="Survey Reports">
+                            <group string="NTTN Survey Reports">
+                                <group>
+                                    <field name="survey_report" placeholder="Enter survey report..."/>
+                                    <field name="survey_report_for_primary"
+                                           placeholder="Enter primary survey report..."/>
+                                    <field name="survey_report_for_secondary"
+                                           placeholder="Enter secondary survey report..."/>
+                                </group>
+
+                                <group>
+                                    <field name="survey_report_file" filename="survey_report_filename"/>
+                                    <field name="survey_report_filename" invisible="1"/>
+
+                                    <field name="survey_report_for_primary_file"
+                                           filename="survey_report_for_primary_filename"/>
+                                    <field name="survey_report_for_primary_filename" invisible="1"/>
+
+                                    <field name="survey_report_for_secondary_file"
+                                           filename="survey_report_for_secondary_filename"/>
+                                    <field name="survey_report_for_secondary_filename" invisible="1"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ======================= -->
+                        <!-- TAB 2: RESURVEY REPORTS -->
+                        <!-- ======================= -->
+                        <page string="Resurvey Reports">
+                            <group string="NTTN Resurvey Reports">
+                                <group>
+                                    <field name="resurvey_report" placeholder="Enter resurvey report..."/>
+                                    <field name="resurvey_report_for_primary"
+                                           placeholder="Enter primary resurvey report..."/>
+                                    <field name="resurvey_report_for_secondary"
+                                           placeholder="Enter secondary resurvey report..."/>
+                                </group>
+
+                                <group>
+                                    <field name="resurvey_report_file" filename="resurvey_report_filename"/>
+                                    <field name="resurvey_report_filename" invisible="1"/>
+
+                                    <field name="resurvey_report_for_primary_file"
+                                           filename="resurvey_report_for_primary_filename"/>
+                                    <field name="resurvey_report_for_primary_filename" invisible="1"/>
+
+                                    <field name="resurvey_report_for_secondary_file"
+                                           filename="resurvey_report_for_secondary_filename"/>
+                                    <field name="resurvey_report_for_secondary_filename" invisible="1"/>
+                                </group>
+                            </group>
+                        </page>
+
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_isp_transmission_nttn_search" model="ir.ui.view">
+        <field name="name">isp.transmission.nttn.search</field>
+        <field name="model">isp.transmission.nttn</field>
+        <field name="arch" type="xml">
+            <search string="Search NTTN Transmission">
+                <field name="seq_id" string="ID"/>
+                <field name="marketing_id"/>
+                <field name="district"/>
+                <field name="upazila"/>
+                <field name="area"/>
+                <field name="remarks"/>
+
+                <group expand="0" string="Group By">
+                    <filter string="District" name="grp_district" context="{'group_by': 'district'}"/>
+                    <filter string="Upazila" name="grp_upazila" context="{'group_by': 'upazila'}"/>
+                    <filter string="Area" name="grp_area" context="{'group_by': 'area'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_transmission_nttn" model="ir.actions.act_window">
+        <field name="name">NTTN Transmission</field>
+        <field name="res_model">isp.transmission.nttn</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <menuitem id="menu_transmission_nttn"
+              name="NTTN Transmission"
+              parent="menu_transmission_root"
+              action="action_transmission_nttn"/>
+
+</odoo>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- NTTN Transmission pending NOC -->
+    <record id="action_isp_transmission_nttn_noc" model="ir.actions.act_window">
+        <field name="name">NTTN Transmission (NOC)</field>
+        <field name="res_model">isp.transmission.nttn</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', 'in', ['confirm', 'noc_confirm', 'done'])]</field>
+        <field name="context">{'search_default_group_by': 'state', 'create': True}</field>
+    </record>
+
+    <!-- OWN Transmission pending NOC -->
+    <record id="action_isp_transmission_own_noc" model="ir.actions.act_window">
+        <field name="name">OWN Transmission (NOC)</field>
+        <field name="res_model">isp.transmission.own</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', 'in', ['confirm', 'noc_confirm', 'done'])]</field>
+        <field name="context">{'search_default_group_by': 'state', 'create': True}</field>
+    </record>
+
+    <!-- NOC Menu -->
+    <menuitem id="menu_isp_noc_management_root"
+              name="NOC Management"
+              sequence="7"
+              groups="kio_isp_management.group_isp_noc_access"/>
+
+    <menuitem id="menu_isp_noc_nttn"
+              name="NTTN Transmission"
+              parent="menu_isp_noc_management_root"
+              action="action_isp_transmission_nttn_noc"
+              groups="kio_isp_management.group_isp_noc_access"/>
+
+    <menuitem id="menu_isp_noc_own"
+              name="OWN Transmission"
+              parent="menu_isp_noc_management_root"
+              action="action_isp_transmission_own_noc"
+              groups="kio_isp_management.group_isp_noc_access"/>
+</odoo>

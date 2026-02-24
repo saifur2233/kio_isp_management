@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo><!-- Optional: define default search view if needed -->
+    <record id="view_isp_survey_search" model="ir.ui.view">
+        <field name="name">isp.survey.search</field>
+        <field name="model">isp.survey</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="customer_name"/>
+                <field name="division"/>
+                <field name="district_id"/>
+                <field name="upazila_id"/>
+                <field name="user_id"/>
+                <filter name="filter_active" string="Active" domain="[(&apos;active&apos;, &apos;=&apos;, True)]" context="{&apos;search_default_active&apos;: 1}"/>
+                <filter name="filter_archived" string="Archived" domain="[(&apos;active&apos;, &apos;=&apos;, False)]"/>
+                <separator/>
+                <filter name="filter_my_surveys" string="My Surveys" domain="[(&apos;user_id&apos;, &apos;=&apos;, uid)]"/>
+                <filter name="filter_done" string="Survey Done" domain="[(&apos;state&apos;, &apos;=&apos;, &apos;done&apos;)]"/>
+                <filter name="filter_draft" string="Draft" domain="[(&apos;state&apos;, &apos;=&apos;, &apos;draft&apos;)]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_salesperson" string="Salesperson" context="{&apos;group_by&apos;: &apos;user_id&apos;}"/>
+                    <filter name="group_by_district" string="District" context="{&apos;group_by&apos;: &apos;district_id&apos;}"/>
+                    <filter name="group_by_status" string="Status" context="{&apos;group_by&apos;: &apos;state&apos;}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ================= WORK ORDER FORM ================= -->
+    <record id="view_isp_work_order_form" model="ir.ui.view">
+        <field name="name">isp.work.order.form</field>
+        <field name="model">isp.work.order</field>
+        <field name="arch" type="xml">
+            <form string="Work Order">
+                <header>
+                    <button name="action_confirm_work_order" string="Submit" type="object" class="oe_highlight" invisible="work_state != 'work_order'"/>
+
+                    <!-- Marketing Group Button -->
+                    <button name="action_marketing_confirm"
+                            string="Marketing Confirm"
+                            type="object"
+                            class="oe_highlight"/>
+                            <!-- invisible="work_state != 'sell_confirm'" -->
+
+                    <button name="action_marketing_revert"
+                            string="Marketing Revert"
+                            type="object"
+                            class="oe_highlight"/>
+                            <!-- invisible="work_state != 'sell_confirm'"/> -->
+
+                    <!-- Legal Group Button -->
+                    <button name="action_legal_confirm"
+                            string="Legal Confirm"
+                            type="object"
+                            class="oe_highlight"/>
+                            <!-- invisible="work_state != 'marketing_confirm'"/> -->
+
+                    <button name="action_legal_revert"
+                            string="Legal Revert"
+                            type="object"
+                            class="oe_highlight"/>
+                            <!-- invisible="work_state != 'marketing_confirm'"/> -->
+
+                    <field name="work_state" widget="isp_state_duration_statusbar"/>
+                    <field name="work_state_work_order_date" invisible="1"/>
+                    <field name="work_state_sell_confirm_date" invisible="1"/>
+                    <field name="work_state_marketing_confirm_date" invisible="1"/>
+                    <field name="work_state_marketing_revert_date" invisible="1"/>
+                    <field name="work_state_legal_confirm_date" invisible="1"/>
+                    <field name="work_state_legal_revert_date" invisible="1"/>
+                    <field name="state_work_order_date" invisible="1"/>
+                    <field name="dur_done_to_work_sec" invisible="1"/>
+                    <field name="dur_done_to_work_display" invisible="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_clients" type="object" class="oe_stat_button" icon="fa-users">
+                            <field name="client_count" widget="statinfo" string="Clients"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="work_order_name" readonly="1"/>
+                        </h1>
+                        <div class="text-muted">
+                            <field name="name" readonly="1"/>
+                        </div>
+                        <div class="text-muted">
+                            <field name="create_date" string="Created At" readonly="1"/>
+                        </div>
+                    </div>
+                    <group>
+                        <group>
+                            <separator string="Owner Information"/>
+                            <field name="customer_name" required="True"/>
+                            <field name="phone" required="True"/>
+                            <field name="email" required="True"/>
+                            <field name="designation"/>
+
+                            <separator string="Technical Contact Person"/>
+                            <field name="technical_person_name"/>
+                            <field name="technical_person_phone"/>
+                            <field name="technical_person_email"/>
+                            <field name="technical_person_designation"/>
+
+                            <separator string="Billing Contact Person"/>
+                            <field name="billing_person_name"/>
+                            <field name="billing_person_phone"/>
+                            <field name="billing_person_email"/>
+                            <field name="billing_person_designation"/>
+                            
+                            <separator string="Customer Address"/>
+                            <field name="division" required="1"/>
+                            <field name="district_id" domain="[(&apos;division&apos;, &apos;=&apos;, division)]" required="True"/>
+                            <field name="upazila_id" domain="[(&apos;district_id&apos;, &apos;=&apos;, district_id)]" required="True"/>
+                            <field name="area"/>
+                            <field name="additional_notes"/>
+                            
+                        </group>
+                        <group>
+                            <separator string="Distance Information"/>
+                            <field name="distance_km" readonly="1"/>
+                            <field name="road_distance_km"/>
+                            <field name="map_url" readonly="1" widget="url"/>
+                            <field name="latitude"/>
+                            <field name="longitude"/>
+
+                            <separator string="Link Information"/>
+                            <field name="primary_link"/>
+                            <field name="secondary_link"/>
+                            <separator string="Aggregation Point"/>
+                            <field name="aggregation_point_id"/>
+                            <field name="switch_model_no"/>
+                            <field name="port_number"/>
+                            <field name="sfp_type"/>
+                            <field name="pop_latitude"/>
+                            <field name="pop_longitude"/>
+                            <separator string="Billing Details"/>
+                            <field name="billing_by"/>
+                        </group>
+                        <group string="Legal Information">
+                            <group>
+                                <field name="profile_image" filename="profile_image_filename"/>
+                                <field name="brtc_license" filename="brtc_license_filename"/>
+                                <field name="contact_authorization" filename="contact_authorization_filename"/>
+                                <field name="general_agreement" filename="general_agreement_filename"/>
+                            </group>
+                            <group>
+                                <field name="cheque_image" filename="cheque_image_filename"/>
+                                <field name="nid_card" filename="nid_card_filename"/>
+                                <field name="trade_license" filename="trade_license_filename"/>
+                                <field name="financial_agreement" filename="financial_agreement_filename"/>
+                            </group>
+                        </group>
+                        <group string="OTC Information">
+                            <field name="cash_information"/>
+                            <field name="money_receipt"/>
+                            <field name="transaction_id"/>
+                            <field name="transaction_image"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Product &amp; Billing Details">
+                            <div class="kio_work_order_product_billing">
+                                <div class="kio_product_tables o_row">
+                                    <div class="o_col-6">
+                                        <separator string="Product Details"/>
+                                        <group col="1" name="offer_capacity_lines_group" class="o_group_no_spacing o_group_no_padding">
+                                            <field name="offer_capacity_type_ids" nolabel="1" class="kio_capacity_one2many">
+                                                <tree create="0" class="o_tree_view o_tree_view_compact kio_offer_capacity_tree">
+                                                    <field name="type_id"/>
+                                                    <field name="capacity" string="MBPS" class="isp_capacity_col" sum="Total MBPS"/>
+                                                    <field name="buffer_bandwidth" string="Buffer Bandwidth"/>
+                                                    <field name="offer_price" string="Price"/>
+                                                    <field name="offer_total_price" string="Total Price" sum="Total Price"/>
+                                                </tree>
+                                            </field>
+                                            <div class="mt-2" style="text-align:left;">
+                                                <button name="action_add_offer_capacity_line"
+                                                        type="object" string="Add a line"
+                                                        class="btn btn-link p-0 kio_capacity_add_line_btn"/>
+                                            </div>
+                                            <group col="1" class="oe_subtotal_footer oe_right o_group_no_padding" name="capacity_totals">
+                                                <!-- <div class="d-flex align-items-center justify-content-end w-100 gap-2 mt-2">
+                                                    <span class="o_td_label o_form_label mb-0">Total</span>
+                                                    <field name="total_capacity" nolabel="1" readonly="1" class="oe_inline fw-bold fs-4 text-end" widget="float"/>
+                                                    <span class="oe_inline text-muted fw-semibold">MB</span>
+                                                </div>
+                                                <div class="d-flex align-items-center justify-content-end w-100 gap-2 mt-2">
+                                                    <span class="o_td_label o_form_label mb-0">Total Amount</span>
+                                                    <field name="total_amount" nolabel="1" readonly="1" class="oe_inline fw-bold fs-5 text-end"/>
+                                                </div> -->
+                                            </group>
+                                        </group>
+                                    </div>
+                                    <div class="o_col-6">
+                                        <separator string="Billing Cycle"/>
+                                        <field name="billing_cycle_ids" nolabel="1">
+                                            <tree editable="bottom" create="0" class="kio_work_order_billing_tree">
+                                                <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total Amount"/>
+                                                <field name="day"/>
+                                                <field name="currency_id" column_invisible="1"/>
+                                                
+                                                <field name="percentage" widget="percentage" sum="Total %"/>
+                                                <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Installment Total"/>
+                                            </tree>
+                                        </field>
+                                        <div class="mt-2" style="text-align:left;">
+                                            <button name="action_add_billing_cycle_line"
+                                                    type="object" string="Add a line"
+                                                    class="btn btn-link p-0 kio_capacity_add_line_btn"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </page>
+                    </notebook>
+                    <notebook>
+                        <page string="Revert Details">
+                            <group>
+                                <field name="user_id" />
+                                <field name="revert_reason" />
+                            </group>
+                        </page>
+                    </notebook>
+                    <separator string="Actions"/>
+                    <div class="d-flex align-items-center justify-content-end gap-5">
+                        <button name="action_confirm_work_order" string="Confirm" type="object" class="oe_highlight" invisible="work_state != 'work_order'"/>
+                        <field name="work_state" widget="isp_state_duration_statusbar"/>
+                    </div>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record><!-- ==================== TREE VIEW ==================== -->
+    <record id="view_isp_survey_tree" model="ir.ui.view">
+        <field name="name">isp.survey.tree</field>
+        <field name="model">isp.survey</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Reference" decoration-bf="1"/>
+                <field name="customer_name"/>
+                <field name="user_id"/>
+                <field name="total_capacity" optional="show"/>
+                <field name="state" widget="badge"/>
+                <field name="activity_ids" widget="list_activity"/>
+            </tree>
+        </field>
+    </record>
+    <!-- ==================== SURVEY FORM VIEW ==================== -->
+    <record id="view_isp_survey_form" model="ir.ui.view">
+        <field name="name">isp.survey.form</field>
+        <field name="model">isp.survey</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_mark_survey_done" string="Survey Done" type="object" class="oe_highlight" invisible="state != &apos;draft&apos;"/>
+                    <button name="action_open_work_order" string="Create Work Order" type="object" class="btn-secondary" invisible="state != &apos;done&apos;"/>
+                    <!-- <field name="state" widget="statusbar"/> -->
+                    <!-- ✅ CUSTOM OWL STATUSBAR -->
+                    <field name="state" widget="isp_state_duration_statusbar"/>
+
+                    <!-- ✅ widget needs these fields -->
+                    <field name="state_draft_date" invisible="1"/>
+                    <field name="state_done_date" invisible="1"/>
+                    <field name="state_work_order_date" invisible="1"/>
+                    <field name="state_work_order_stop_date" invisible="1"/>
+                    <field name="dur_draft_to_done_display" invisible="1"/>
+                    <field name="dur_done_to_work_display" invisible="1"/>
+                    <field name="dur_work_order_active_display" invisible="1"/>
+                    <field name="create_date" invisible="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_clients" type="object" class="oe_stat_button" icon="fa-users">
+                            <field name="client_count" widget="statinfo" string="Clients"/>
+                        </button>
+                        <button name="action_open_work_order" type="object" class="oe_stat_button" icon="fa-tasks" invisible="not work_order_id">
+                            <field name="work_order_id" widget="statinfo" string="Work Order"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="customer_name" required="True"/>
+                            <field name="phone" required="True"/>
+                            <field name="email" required="True"/>
+                            <field name="user_id"/>
+                            <field name="division"/>
+                            <field name="district_id" domain="[(&apos;division&apos;, &apos;=&apos;, division)]" required="True"/>
+                            <field name="upazila_id" domain="[(&apos;district_id&apos;, &apos;=&apos;, district_id)]" required="True"/>
+                            <field name="area"/>
+                            <field name="additional_notes"/>
+                        </group>
+                        <group>
+                            <field name="latitude"/>
+                            <field name="longitude"/>
+                            <field name="visiting_type"/><!-- <field name = "primary_link"/> --><!-- <field name="secondary_link"/> -->
+                            <field name="client_type"/>
+                            <field name="existing_upstream"/>
+                        </group>
+                    </group>
+                    <notebook>
+
+                        <!-- ===================== Bandwidth Details ===================== -->
+                        <page string="Bandwith Details" invisible="not client_type or client_type == 'mac'">
+                            <div class="kio_survey_bw_scope">
+                                <div class="kio_product_tables o_row">
+
+                                    <!-- EXISTING -->
+                                    <div class="o_col-6">
+                                        <separator string="Existing Bandwidth Details"/>
+                                        <div name="capacity_lines_group" class="kio_capacity_layout_fix">
+
+                                            <field name="capacity_type_ids" nolabel="1" class="kio_capacity_one2many">
+                                                <tree editable="bottom" class="o_tree_view o_tree_view_compact kio_capacity_tree">
+                                                    <field name="type_id"/>
+                                                    <field name="capacity" string="MBPS" sum="Data Capacity" widget="float"/>
+                                                    <field name="buffer_bandwidth" string="Buffer Bandwidth"/>
+                                                    <field name="existing_price" string="Unit Price"/>
+                                                    <field name="existing_total_price" string="Existing Total Price" sum="Grand Total"/>
+                                                </tree>
+                                            </field>
+
+                                            <div class="mt-2" style="text-align:left;">
+                                                <button name="action_add_capacity_line"
+                                                        type="object" string="Add a line"
+                                                        class="btn btn-link p-0 kio_capacity_add_line_btn"/>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <!-- OFFER -->
+                                    <div class="o_col-6">
+                                        <separator string="Offer Bandwidth Details"/>
+
+                                        <field name="offer_capacity_type_ids" nolabel="1">
+                                            <tree editable="bottom" create="0"
+                                                  class="o_tree_view o_tree_view_compact kio_offer_capacity_tree">
+                                                <field name="type_id"/>
+                                                <field name="capacity" string="MBPS" sum="Data Capacity" widget="float"/>
+                                                <field name="buffer_bandwidth" string="Buffer Bandwidth"/>
+                                                <field name="offer_price" string="Offer Price"/>
+                                                <field name="offer_total_price" string="Total Offer Price" sum="Grand Total"/>
+                                            </tree>
+                                        </field>
+
+                                        <div class="mt-2" style="text-align:left;">
+                                            <button name="action_add_offer_capacity_line"
+                                                    type="object" string="Add a line"
+                                                    class="btn btn-link p-0 kio_capacity_add_line_btn"/>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </page>
+
+                        <!-- ===================== MAC Details ===================== -->
+                        <page string="MAC Details" invisible="not client_type or client_type in ['bandwith','corporate']">
+                            <div class="kio_survey_mac_scope">
+                                <div class="kio_product_tables o_row">
+
+                                    <!-- EXISTING MAC -->
+                                    <div class="o_col-6">
+                                        <separator string="Existing MAC Details"/>
+
+                                        <field name="existing_mac_detail_ids" nolabel="1">
+                                            <tree editable="bottom" create="0"
+                                                  class="o_tree_view o_tree_view_compact kio_mac_tree">
+                                                <field name="product_id"/>
+                                                <field name="qty" sum="Total Qty"/>
+                                                <field name="current_rate" string="Package Rate"/>
+                                                <field name="commission_rate" string="Client Commission" widget="percentage"/>
+                                                <field name="amount" sum="Total Amount"/>
+                                            </tree>
+                                        </field>
+
+                                        <div class="mt-2" style="text-align:left;">
+                                            <button name="action_add_existing_mac_line"
+                                                    type="object" string="Add a line"
+                                                    class="btn btn-link p-0 kio_capacity_add_line_btn"/>
+                                        </div>
+                                    </div>
+
+                                    <!-- OFFER MAC -->
+                                    <div class="o_col-6">
+                                        <separator string="Offer MAC Details"/>
+
+                                        <field name="offer_mac_detail_ids" nolabel="1">
+                                            <tree editable="bottom" create="0"
+                                                  class="o_tree_view o_tree_view_compact kio_mac_tree">
+                                                <field name="product_id"/>
+                                                <field name="qty" sum="Total Qty"/>
+                                                <field name="current_rate" string="Package Rate"/>
+                                                <field name="commission_rate" string="Client Commission" widget="percentage"/>
+                                                <field name="amount" sum="Total Amount"/>
+                                            </tree>
+                                        </field>
+
+                                        <div class="mt-2" style="text-align:left;">
+                                            <button name="action_add_offer_mac_line"
+                                                    type="object" string="Add a line"
+                                                    class="btn btn-link p-0 kio_capacity_add_line_btn"/>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </page>
+
+                    </notebook>
+                </sheet><!-- Chatter -->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record><!-- Action -->
+    <record id="action_isp_survey" model="ir.actions.act_window">
+        <field name="name">Survey</field>
+        <field name="res_model">isp.survey</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first survey record.
+            </p>
+        </field>
+    </record>
+    <record id="view_isp_work_order_tree" model="ir.ui.view">
+        <field name="name">isp.work.order.tree</field>
+        <field name="model">isp.work.order</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="work_order_name" decoration-bf="1"/>
+                <field name="name"/>
+                <field name="customer_name"/>
+                <field name="user_id"/>
+                <field name="total_capacity"/>
+                <!-- <field name="total_amount"/> -->
+                <field name="total_offer_amount"/>
+                <field name="work_state" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_isp_work_orders" model="ir.actions.act_window">
+        <field name="name">Work Orders</field>
+        <field name="res_model">isp.work.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="views" eval="[(ref(&apos;kio_isp_management.view_isp_work_order_tree&apos;), &apos;tree&apos;), (ref(&apos;kio_isp_management.view_isp_work_order_form&apos;), &apos;form&apos;)]"/>
+    </record><!-- Menu Item -->
+    <menuitem id="menu_isp_survey" name="Survey" action="action_isp_survey" sequence="1" groups="kio_isp_management.group_isp_survey_access"/>
+    <menuitem id="menu_work_orders_root" name="Work Orders" action="action_isp_work_orders" sequence="3" groups="kio_isp_management.group_isp_work_order_access"/>
+</odoo>

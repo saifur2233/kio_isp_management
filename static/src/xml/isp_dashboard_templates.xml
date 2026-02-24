@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="kio_isp_dashboard_templates" xml:space="preserve">
+    <t t-name="kio_isp_management.dashboard">
+        <div id="kio-isp-dashboard-root">
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet"/>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.css" rel="stylesheet"/>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+            <style>
+                * { margin: 0; padding: 0; box-sizing: border-box; overflow: hidden; }
+                :root { --primary: #1a5f7a; --accent: #2ba3c8; --light-accent: #4ec8e3; --dark: #0f3a4a; --light-bg: #f5f7fa; --white: #ffffff; --text-dark: #2c3e50; --border-color: #e0e6ed; }
+                body { background-color: var(--light-bg); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--text-dark); }
+                .top-bar { background: linear-gradient(135deg, var(--light-accent) 0%, var(--primary) 100%); padding: 20px 30px; color: white; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); display: flex; justify-content: space-between; align-items: center; }
+                .top-bar h1 { font-size: 28px; font-weight: 700; letter-spacing: 0.5px; }
+                .month-btn { background-color: var(--dark); color: white; border: none; padding: 8px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+                .month-btn:hover { background-color: var(--primary); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); }
+                .sidebar { display:none; background-color: var(--white); border-right: 1px solid var(--border-color); padding: 30px 0; min-height: calc(100vh - 80px); position: fixed; left: 0; width: 280px; overflow-y: auto; box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05); }
+                .sidebar-item { padding: 15px 25px; color: var(--text-dark); cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 500; border-left: 4px solid transparent; position: relative; }
+                .sidebar-item i { width: 20px; transition: all 0.3s ease; }
+                .sidebar-item:hover { background-color: var(--light-bg); border-left-color: var(--accent); padding-left: 35px; color: var(--accent); }
+                .sidebar-item.active { background-color: var(--light-bg); border-left-color: var(--accent); color: var(--accent); }
+                .main-content { 
+                    <!-- margin-left: 280px;  -->
+                    margin-top: 0px !important; 
+                    padding: 30px; height: calc(100vh - 80px); 
+                    overflow-y: auto; overflow-x: hidden; 
+                }
+                .greeting { margin-bottom: 30px; animation: slideInDown 0.6s ease; }
+                .greeting h2 { font-size: 32px; font-weight: 700; color: var(--text-dark); margin-bottom: 5px; }
+                .greeting p { color: #7f8c8d; font-size: 15px; }
+                .stat-card { background: linear-gradient(135deg, var(--light-accent) 0%, var(--accent) 100%); color: white; padding: 25px; border-radius: 12px; margin-bottom: 20px; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; overflow: hidden; box-shadow: 0 5px 15px rgba(43, 163, 200, 0.2); animation: fadeInUp 0.6s ease backwards; }
+                .stat-card:nth-child(1) { animation-delay: 0.1s; }
+                .stat-card:nth-child(2) { animation-delay: 0.2s; }
+                .stat-card:nth-child(3) { animation-delay: 0.3s; }
+                .stat-card:nth-child(4) { animation-delay: 0.4s; }
+                .stat-card:nth-child(5) { animation-delay: 0.5s; }
+                .stat-card::before { content: ''; position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.1); border-radius: 50%; transition: all 0.6s ease; }
+                .stat-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 15px 40px rgba(43, 163, 200, 0.3); }
+                .stat-card:hover::before { top: -25%; right: -25%; }
+                .stat-card-label { font-size: 13px; font-weight: 600; opacity: 0.95; text-transform: uppercase; letter-spacing: 0.5px; }
+                .stat-card-value { font-size: 28px; font-weight: 700; margin-top: 10px; position: relative; z-index: 1; }
+                .stat-card-icon { position: absolute; right: 20px; top: 20px; font-size: 32px; opacity: 0.3; transition: all 0.3s ease; }
+                .stat-card:hover .stat-card-icon { transform: rotate(20deg) scale(1.1); opacity: 0.5; }
+                .chart-card { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); margin-bottom: 30px; animation: fadeInUp 0.6s ease backwards; transition: all 0.3s ease; }
+                .chart-card:nth-child(6) { animation-delay: 0.6s; }
+                .chart-card:nth-child(7) { animation-delay: 0.7s; }
+                .chart-card:hover { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12); transform: translateY(-5px); }
+                .chart-title { font-size: 16px; font-weight: 700; color: var(--text-dark); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+                .chart-title i { color: var(--accent); font-size: 18px; }
+                .summary-card { background: linear-gradient(135deg, var(--primary) 0%, #0d4a5f 100%); color: white; padding: 25px; border-radius: 12px; text-align: center; margin-bottom: 20px; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); animation: fadeInUp 0.6s ease backwards; box-shadow: 0 5px 15px rgba(26, 95, 122, 0.2); }
+                .summary-card:nth-child(1) { animation-delay: 0.8s; }
+                .summary-card:nth-child(2) { animation-delay: 0.85s; }
+                .summary-card:nth-child(3) { animation-delay: 0.9s; }
+                .summary-card:nth-child(4) { animation-delay: 0.95s; }
+                .summary-card:hover { transform: translateY(-8px); box-shadow: 0 12px 35px rgba(26, 95, 122, 0.3); }
+                .summary-card-label { font-size: 12px; font-weight: 600; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+                .summary-card-value { font-size: 26px; font-weight: 700; }
+                .perf-metrics { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; animation: fadeInUp 0.6s ease backwards; animation-delay: 0.2s; }
+                .metric { display: flex; align-items: center; gap: 15px; background: white; padding: 20px; border-radius: 12px; flex: 1; min-width: 200px; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05); transition: all 0.3s ease; }
+                .metric:hover { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); transform: translateY(-3px); }
+                .metric-value { font-size: 22px; font-weight: 700; color: var(--accent); }
+                .metric-label { font-size: 12px; color: #7f8c8d; font-weight: 600; }
+                @keyframes slideInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+                @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+                ::-webkit-scrollbar { width: 8px; }
+                ::-webkit-scrollbar-track { background: var(--light-bg); }
+                ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+                ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+                @media (max-width: 768px) { .sidebar { transform: translateX(-100%); z-index: 1000; width: 250px; transition: transform 0.3s ease; } .main-content { margin-left: 0; } .greeting h2 { font-size: 24px; } .stat-card-value { font-size: 22px; } }
+            </style>
+
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <h1><i class="fas fa-chart-line"></i> Dashboard</h1>
+                <button class="month-btn">
+                    <i class="fas fa-calendar"></i> January 2025
+                </button>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-item active">
+                    <i class="fas fa-th-large"></i> Dashboard
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-users"></i> Lead Management
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-network-wired"></i> Bandwidth Management
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-tasks"></i> Work Order Management
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-user-cog"></i> User Management
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-cogs"></i> Account Management
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-ticket-alt"></i> Ticket Management
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <div class="greeting">
+                    <h2>Good Morning, Admin!</h2>
+                    <p>Today is <span id="current-date"></span></p>
+                </div>
+
+                <!-- Stat Cards -->
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="stat-card">
+                            <div class="stat-card-icon"><i class="fas fa-briefcase"></i></div>
+                            <div class="stat-card-label">WorkOrder</div>
+                            <div class="stat-card-value">26</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="stat-card">
+                            <div class="stat-card-icon"><i class="fas fa-file-invoice"></i></div>
+                            <div class="stat-card-label">Generated Bill</div>
+                            <div class="stat-card-value">5,00,000 ৳</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="stat-card">
+                            <div class="stat-card-icon"><i class="fas fa-check-circle"></i></div>
+                            <div class="stat-card-label">Collected Bill</div>
+                            <div class="stat-card-value">3,00,000 ৳</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="stat-card">
+                            <div class="stat-card-icon"><i class="fas fa-clock"></i></div>
+                            <div class="stat-card-label">Due Bill</div>
+                            <div class="stat-card-value">1,80,000 ৳</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="stat-card">
+                            <div class="stat-card-icon"><i class="fas fa-tag"></i></div>
+                            <div class="stat-card-label">Discount Bill</div>
+                            <div class="stat-card-value">20,000 ৳</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="stat-card">
+                            <div class="stat-card-icon"><i class="fas fa-arrow-up"></i></div>
+                            <div class="stat-card-label">Upgration MRC</div>
+                            <div class="stat-card-value">2,40,000 ৳</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="stat-card">
+                            <div class="stat-card-icon"><i class="fas fa-arrow-down"></i></div>
+                            <div class="stat-card-label">Downgration MRC</div>
+                            <div class="stat-card-value">86,000 ৳</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="stat-card">
+                            <div class="stat-card-icon"><i class="fas fa-wifi"></i></div>
+                            <div class="stat-card-label">Bandwidth Cost</div>
+                            <div class="stat-card-value">3,00,000</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="stat-card">
+                            <div class="stat-card-icon"><i class="fas fa-user-plus"></i></div>
+                            <div class="stat-card-label">New Clients</div>
+                            <div class="stat-card-value"> <t t-esc="state.new_client or 0" /></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="stat-card">
+                            <div class="stat-card-icon"><i class="fas fa-user-minus"></i></div>
+                            <div class="stat-card-label">Left Clients</div>
+                            <div class="stat-card-value"><t t-esc="state.left_client or 0" /></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="stat-card">
+                            <div class="stat-card-icon"><i class="fas fa-chart-line"></i></div>
+                            <div class="stat-card-label">Highest monthly revenue</div>
+                            <div class="stat-card-value">50,00,000 ৳</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="stat-card">
+                            <div class="stat-card-icon"><i class="fas fa-chart-area"></i></div>
+                            <div class="stat-card-label">Lowest monthly revenue</div>
+                            <div class="stat-card-value">10,00,000 ৳</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Performance Metrics -->
+                <!-- <div class="perf-metrics">
+                    <div class="metric">
+                        <div>
+                            <div class="metric-label">Highest monthly revenue</div>
+                            <div class="metric-value">50,00,000 ৳</div>
+                        </div>
+                    </div>
+                    <div class="metric">
+                        <div>
+                            <div class="metric-label">Lowest monthly revenue</div>
+                            <div class="metric-value">10,00,000 ৳</div>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- Charts Row -->
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="chart-card">
+                            <div class="chart-title">
+                                <i class="fas fa-chart-line"></i> Yearly Revenue Performance
+                            </div>
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="chart-card">
+                            <div class="chart-title">
+                                <i class="fas fa-chart-area"></i> Yearly Clients Performance
+                            </div>
+                            <div class="legend">
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background-color: #2ba3c8;"></div>
+                                    New Clients
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background-color: #1a5f7a;"></div>
+                                    Left Clients
+                                </div>
+                            </div>
+                            <canvas id="clientsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Cards Row -->
+                <div class="row" style="margin-top: 30px;">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="summary-card">
+                            <div class="summary-card-label">Total Bill</div>
+                            <div class="summary-card-value">1,00,00,000</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="summary-card">
+                            <div class="summary-card-label">Total Due</div>
+                            <div class="summary-card-value">1,00,000</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="summary-card">
+                            <div class="summary-card-label">Total Clients</div>
+                            <div class="summary-card-value">160</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="summary-card">
+                            <div class="summary-card-label">Total Work Order</div>
+                            <div class="summary-card-value">200</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Service Capacity Row -->
+                <div class="row" style="margin-top: 30px; margin-bottom: 30px;">
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="chart-card">
+                            <div class="chart-title">
+                                <i class="fas fa-network-wired"></i> Service Type Capacity
+                            </div>
+                            <canvas id="capacityChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-6 col-sm-12">
+                        <div class="chart-card">
+                            <div class="chart-title">
+                                <i class="fas fa-chart-bar"></i> Detailed Metrics
+                            </div>
+                            <canvas id="detailedChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

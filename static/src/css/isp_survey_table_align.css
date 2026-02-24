@@ -1,0 +1,355 @@
+.kio_capacity_tree table thead th,
+.kio_capacity_tree table tbody td {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.kio_capacity_tree table tbody td input,
+.kio_capacity_tree table tbody td select {
+    text-align: center !important;
+}
+
+.o_list_renderer .o_list_table tbody>tr>td:not(.o_list_record_selector).o_list_number {
+    text-align: center !important;
+}
+
+.o_list_renderer .o_list_table thead .o_list_number_th {
+    text-align: center !important;
+}
+
+/* =========================================================
+   ✅ BANDWIDTH PAGE SCOPE (NO CONFLICT)
+   Only applies inside: <div class="kio_survey_bw_scope">
+   ========================================================= */
+
+.kio_survey_bw_scope .kio_capacity_tree table thead th,
+.kio_survey_bw_scope .kio_capacity_tree table tbody td,
+.kio_survey_bw_scope .kio_capacity_tree table tfoot td,
+.kio_survey_bw_scope .kio_offer_capacity_tree table thead th,
+.kio_survey_bw_scope .kio_offer_capacity_tree table tbody td,
+.kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+/* Footer look */
+.kio_survey_bw_scope .kio_capacity_tree table tfoot td,
+.kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td {
+    font-weight: 700 !important;
+    background: #f8f9fa !important;
+}
+
+/* Keep edit inputs centered */
+.kio_survey_bw_scope .kio_capacity_tree table tbody td input,
+.kio_survey_bw_scope .kio_capacity_tree table tbody td select,
+.kio_survey_bw_scope .kio_offer_capacity_tree table tbody td input,
+.kio_survey_bw_scope .kio_offer_capacity_tree table tbody td select {
+    text-align: center !important;
+}
+
+/* Prefix labels */
+.kio_survey_bw_scope .kio_capacity_tree table tfoot td:nth-child(1)::before {
+    content: "Data Capacity: ";
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.kio_survey_bw_scope .kio_capacity_tree table tfoot td:nth-child(4)::before {
+    content: "Grand Total: ";
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td:nth-child(1)::before {
+    content: "Data Capacity: ";
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td:nth-child(4)::before {
+    content: "Grand Total: ";
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+/* Units after totals */
+.kio_survey_bw_scope .kio_capacity_tree table tfoot td:nth-child(2)::after,
+.kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td:nth-child(2)::after {
+    content: " MBPS";
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+.kio_survey_bw_scope .kio_capacity_tree table tfoot td:nth-child(5)::after,
+.kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td:nth-child(5)::after {
+    content: " Taka";
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+/* Fix "...." ellipsis in footer */
+.kio_survey_bw_scope .kio_capacity_tree table tfoot td,
+.kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+    height: auto !important;
+    line-height: 1.4 !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+}
+
+.kio_survey_bw_scope .kio_capacity_tree table tfoot td *,
+.kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td * {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+}
+
+/* Optional spacing */
+.kio_survey_bw_scope .kio_capacity_one2many {
+    margin-bottom: 6px;
+}
+
+/* Hide Odoo's built-in "Add a line" row ONLY for offer table inside Bandwidth page */
+.kio_survey_bw_scope .kio_offer_capacity_tree .o_field_x2many_list_row_add,
+.kio_survey_bw_scope .kio_offer_capacity_tree tr.o_field_x2many_list_row_add,
+.kio_survey_bw_scope .kio_offer_capacity_tree tr.o_list_row_add {
+    display: none !important;
+}
+
+/* Offer table: remove the empty placeholder row (td colspan with &ZeroWidthSpace;) */
+.kio_survey_bw_scope .kio_offer_capacity_tree table tbody tr > td[colspan]{
+    padding: 0 !important;
+    border: 0 !important;
+    height: 0 !important;
+    line-height: 0 !important;
+    font-size: 0 !important;
+}
+
+/* =========================================================
+   ✅ MAC PAGE SCOPE (NO CONFLICT)
+   Only applies inside: <div class="kio_survey_mac_scope">
+   ========================================================= */
+
+.kio_survey_mac_scope .kio_mac_tree table thead th,
+.kio_survey_mac_scope .kio_mac_tree table tbody td,
+.kio_survey_mac_scope .kio_mac_tree table tfoot td {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.kio_survey_mac_scope .kio_mac_tree table tfoot td {
+    font-weight: 700 !important;
+    background: #f8f9fa !important;
+}
+
+.kio_survey_mac_scope .kio_mac_tree table tbody td input,
+.kio_survey_mac_scope .kio_mac_tree table tbody td select {
+    text-align: center !important;
+}
+
+/* wrap footer (avoid ....) */
+.kio_survey_mac_scope .kio_mac_tree table tfoot td {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+    height: auto !important;
+    line-height: 1.4 !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+}
+
+.kio_survey_mac_scope .kio_mac_tree table tfoot td * {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+}
+
+/* Prefix for Qty total cell (col 2) */
+.kio_survey_mac_scope .kio_mac_tree table tfoot td:nth-child(2)::before {
+    content: "Total Qty: ";
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+/* Prefix + postfix for Amount total cell (col 5) */
+.kio_survey_mac_scope .kio_mac_tree table tfoot td:nth-child(5)::before {
+    content: "Total Amount: ";
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.kio_survey_mac_scope .kio_mac_tree table tfoot td:nth-child(5)::after {
+    content: " Taka";
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+/* MAC tables: remove empty placeholder rows (td colspan with &ZeroWidthSpace;) */
+.kio_survey_mac_scope .kio_mac_tree table tbody tr > td[colspan]{
+    padding: 0 !important;
+    border: 0 !important;
+    height: 0 !important;
+    line-height: 0 !important;
+    font-size: 0 !important;
+}
+
+/* =========================================================
+   ✅ WORK ORDER PRODUCT/BILLING SCOPE (NO CONFLICT)
+   Only applies inside: <div class="kio_work_order_product_billing">
+   ========================================================= */
+
+.kio_work_order_product_billing .kio_capacity_tree table thead th,
+.kio_work_order_product_billing .kio_capacity_tree table tbody td,
+.kio_work_order_product_billing .kio_capacity_tree table tfoot td,
+.kio_work_order_product_billing .kio_offer_capacity_tree table thead th,
+.kio_work_order_product_billing .kio_offer_capacity_tree table tbody td,
+.kio_work_order_product_billing .kio_offer_capacity_tree table tfoot td,
+.kio_work_order_product_billing .kio_work_order_billing_tree table thead th,
+.kio_work_order_product_billing .kio_work_order_billing_tree table tbody td,
+.kio_work_order_product_billing .kio_work_order_billing_tree table tfoot td {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.kio_work_order_product_billing .kio_capacity_tree table tfoot td,
+.kio_work_order_product_billing .kio_offer_capacity_tree table tfoot td,
+.kio_work_order_product_billing .kio_work_order_billing_tree table tfoot td {
+    font-weight: 700 !important;
+    background: #f8f9fa !important;
+}
+
+.kio_work_order_product_billing .kio_capacity_tree table tbody td input,
+.kio_work_order_product_billing .kio_capacity_tree table tbody td select,
+.kio_work_order_product_billing .kio_offer_capacity_tree table tbody td input,
+.kio_work_order_product_billing .kio_offer_capacity_tree table tbody td select,
+.kio_work_order_product_billing .kio_work_order_billing_tree table tbody td input,
+.kio_work_order_product_billing .kio_work_order_billing_tree table tbody td select {
+    text-align: center !important;
+}
+
+.kio_work_order_product_billing .kio_capacity_tree table tfoot td,
+.kio_work_order_product_billing .kio_offer_capacity_tree table tfoot td,
+.kio_work_order_product_billing .kio_work_order_billing_tree table tfoot td {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+    height: auto !important;
+    line-height: 1.4 !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+}
+
+.kio_work_order_product_billing .kio_capacity_tree table tfoot td *,
+.kio_work_order_product_billing .kio_offer_capacity_tree table tfoot td *,
+.kio_work_order_product_billing .kio_work_order_billing_tree table tfoot td * {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+}
+
+.kio_work_order_product_billing .kio_capacity_add_line_btn {
+    color: #5f5b95;
+    text-decoration: none;
+}
+
+/* Product Details (Work Order) footer labels/totals */
+.kio_work_order_product_billing .kio_offer_capacity_tree table tfoot td:nth-child(1)::before {
+    content: "Data Capacity: ";
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.kio_work_order_product_billing .kio_offer_capacity_tree table tfoot td:nth-child(2)::after {
+    content: " MBPS";
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+.kio_work_order_product_billing .kio_offer_capacity_tree table tfoot td:nth-child(4)::before {
+    content: "Grand Price: ";
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.kio_work_order_product_billing .kio_offer_capacity_tree table tfoot td:nth-child(5)::after {
+    content: "Taka";
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+/* Units after totals */
+.kio_work_order_product_billing .kio_capacity_tree table tfoot td:nth-child(1)::before {
+    content: "Data Capacity: ";
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+.kio_work_order_product_billing .kio_capacity_tree table tfoot td:nth-child(3)::before {
+    content: "Grand Total: ";
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+.kio_work_order_product_billing .kio_capacity_tree table tfoot td:nth-child(2)::after {
+    content: " MBPS";
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+.kio_work_order_product_billing .kio_work_order_billing_tree table tfoot td:nth-child(1)::before {
+    content: "Grand Total: ";
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+/* .kio_work_order_product_billing .kio_capacity_tree table tfoot td:nth-child(4)::after,
+.kio_work_order_product_billing .kio_work_order_billing_tree table tfoot td:nth-child(2)::after,
+.kio_work_order_product_billing .kio_work_order_billing_tree table tfoot td:nth-child(4)::after {
+    content: " Taka";
+    font-weight: 600;
+    margin-left: 4px;
+} */
+
+/* Hide Odoo list add-row; use custom "Add a line" buttons */
+.kio_work_order_product_billing .kio_capacity_tree .o_field_x2many_list_row_add,
+.kio_work_order_product_billing .kio_capacity_tree tr.o_field_x2many_list_row_add,
+.kio_work_order_product_billing .kio_capacity_tree tr.o_list_row_add,
+.kio_work_order_product_billing .kio_offer_capacity_tree .o_field_x2many_list_row_add,
+.kio_work_order_product_billing .kio_offer_capacity_tree tr.o_field_x2many_list_row_add,
+.kio_work_order_product_billing .kio_offer_capacity_tree tr.o_list_row_add,
+.kio_work_order_product_billing .kio_work_order_billing_tree .o_field_x2many_list_row_add,
+.kio_work_order_product_billing .kio_work_order_billing_tree tr.o_field_x2many_list_row_add,
+.kio_work_order_product_billing .kio_work_order_billing_tree tr.o_list_row_add {
+    display: none !important;
+}
+
+/* Remove the empty placeholder rows when add-row is hidden */
+.kio_work_order_product_billing .kio_capacity_tree table tbody tr:has(> td[colspan]),
+.kio_work_order_product_billing .kio_offer_capacity_tree table tbody tr:has(> td[colspan]),
+.kio_work_order_product_billing .kio_work_order_billing_tree table tbody tr:has(> td[colspan]) {
+    display: none !important;
+}
+
+.kio_work_order_product_billing .kio_capacity_tree table tbody tr > td[colspan],
+.kio_work_order_product_billing .kio_offer_capacity_tree table tbody tr > td[colspan],
+.kio_work_order_product_billing .kio_work_order_billing_tree table tbody tr > td[colspan] {
+    padding: 0 !important;
+    border: 0 !important;
+    height: 0 !important;
+    line-height: 0 !important;
+    font-size: 0 !important;
+}
+
+/* Keep status color scheme unchanged; only duration text is highlighted. */
+.o_field_statusbar .kio_statusbar_duration {
+    color: #dc3545;
+    font-weight: 600;
+}

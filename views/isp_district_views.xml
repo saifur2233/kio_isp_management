@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================= -->
+    <!--                ISP DISTRICT VIEWS             -->
+    <!-- ============================================= -->
+
+    <!-- Tree / List View -->
+    <record id="view_isp_district_tree" model="ir.ui.view">
+        <field name="name">isp.district.tree</field>
+        <field name="model">isp.district</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="division"/>
+                <field name="upazila_count" sum="Total Upazilas"/>
+                <button name="action_view_upazilas"
+                        type="object"
+                        string="View"
+                        class="oe_link"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_isp_district_form" model="ir.ui.view">
+        <field name="name">isp.district.form</field>
+        <field name="model">isp.district</field>
+        <field name="arch" type="xml">
+            <form string="District">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" string="District Name" required="1" style="font-size: min(4vw, 2.6rem);"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="code" readonly="1"/>
+                        <field name="division" required="1"/>
+                    </group>
+
+                    <!-- Upazilas inline list (editable) -->
+                    <notebook>
+                        <page string="Upazillas">
+                            <field name="upazila_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="name" string="Upazila Name"/>
+                                    <!-- You can add more fields later, e.g. postal_code, etc. -->
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_isp_district" model="ir.actions.act_window">
+        <field name="name">Districts/Upazila</field>
+        <field name="res_model">isp.district</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_isp_district_tree"/>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('view_isp_district_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('view_isp_district_form')})]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add your first District!
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem
+        id="menu_isp_district"
+        name="Districts/Upazila"
+        parent="menu_configuration_root"
+        action="action_isp_district"
+        sequence="1"/>
+
+</odoo>

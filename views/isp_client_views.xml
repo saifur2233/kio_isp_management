@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+
+    <record id="view_isp_client_search" model="ir.ui.view">
+        <field name="name">isp.client.search</field>
+        <field name="model">isp.client</field>
+        <field name="arch" type="xml">
+            <search string="ISP Clients">
+                <field name="name" string="Client ID" filter_domain="[('name', 'ilike', self)]"/>
+                <field name="client_name" string="Client Name" filter_domain="[('client_name', 'ilike', self)]"/>
+                <field name="email" string="Email" filter_domain="[('email', 'ilike', self)]"/>
+                <field name="mobile" string="Mobile" filter_domain="[('mobile', 'ilike', self)]"/>
+                <field name="organization_name" string="Organization"
+                       filter_domain="[('organization_name', 'ilike', self)]"/>
+                <field name="license_id" string="License Type"/>
+                <field name="client_type_id" string="Client Type"/>
+                <field name="support_team_id" string="Support Team"/>
+                <field name="user_id" string="Marketing KAM"/>
+                <field name="division" string="Division"/>
+                <field name="district_id" string="District"/>
+                <field name="upazila_id" string="Upazila"/>
+
+                <filter name="filter_active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="filter_inactive" string="Inactive" domain="[('active', '=', False)]"/>
+
+                <separator/>
+                <filter name="filter_has_license" string="Has License" domain="[('license_id', '!=', False)]"/>
+                <filter name="filter_no_license" string="No License" domain="[('license_id', '=', False)]"/>
+
+                <separator/>
+                <filter name="filter_has_organization" string="Organizations"
+                        domain="[('organization_name', '!=', False)]"/>
+                <filter name="filter_individuals" string="Individuals" domain="[('organization_name', '=', False)]"/>
+
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter name="group_license" string="License Type" context="{'group_by': 'license_id'}"/>
+                    <filter name="group_client_type" string="Client Type" context="{'group_by': 'client_type_id'}"/>
+                    <filter name="group_support_team" string="Support Team" context="{'group_by': 'support_team_id'}"/>
+                    <filter name="group_kam" string="Marketing KAM" context="{'group_by': 'user_id'}"/>
+                    <filter name="group_division" string="Division" context="{'group_by': 'division'}"/>
+                    <filter name="group_district" string="District" context="{'group_by': 'district_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <!-- 1. Tree / List View -->
+    <record id="view_isp_client_tree" model="ir.ui.view">
+        <field name="name">isp.client.tree</field>
+        <field name="model">isp.client</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" decoration-bf="True"/>
+                <field name="client_name"/>
+                <field name="organization_name"/>
+                <field name="mobile"/>
+                <field name="email"/>
+                <field name="license_id"/>
+                <field name="state" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- 2. Form View -->
+    <record id="view_isp_client_form" model="ir.ui.view">
+        <field name="name">isp.client.form</field>
+        <field name="model">isp.client</field>
+        <field name="arch" type="xml">
+            <form string="ISP Client">
+                <header>
+                    <button name="action_legal_confirm"
+                            string="Legal Confirm"
+                            type="object"
+                            class="oe_highlight"
+                            invisible="legal_decided"/>
+
+
+                    <button name="action_legal_reject"
+                            string="Legal Reject"
+                            type="object"
+                            class="oe_highlight"
+                            invisible="legal_decided"/>
+                    <field name="state" widget="statusbar" options="{'clickable': 0}"/>
+                    <field name="legal_decided" invisible="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group string="Client Create">
+                        <group>
+                            <field name="client_name" required="True"/>
+                            <field name="email" widget="email" required="True"/>
+                            <field name="mobile" widget="phone" required="True"/>
+                            <field name="license_id" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="password" required="True" widget="password" password="True"/>
+                            <field name="password_confirmation"
+                                   string="Confirm Password" widget="password" password="True"/>
+                            <field name="organization_name"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <!-- Contact Person Details (Same like screenshot) -->
+                    <separator string="Contact Person Details :" class="mt16"/>
+
+                    <group colspan="2">
+                        <!-- top dropdown (optional look) -->
+                        <field name="contact_person_ids" nolabel="1" colspan="2">
+                            <tree editable="bottom">
+                                <field name="contact_type" string="Type"/>
+                                <field name="name"/>
+                                <field name="mobile"/>
+                                <field name="email"/>
+                            </tree>
+                        </field>
+                    </group>
+
+                    <group string="Location">
+                        <field name="division"/>
+                        <field name="district_id"
+                               domain="[('division', '=', division)]"
+                               options="{'no_create': True}"/>
+                        <field name="upazila_id"
+                               domain="[('district_id', '=', district_id)]"
+                               options="{'no_create': True}"/>
+                    </group>
+                    <!-- Technical Address Section -->
+                    <group string="Documentation">
+                        <group>
+                            <field name="profile_image" filename="profile_image_filename"/>
+                            <field name="brtc_license" filename="brtc_license_filename"/>
+                            <field name="contact_authorization" filename="contact_authorization_filename"/>
+                            <field name="general_agreement" filename="general_agreement_filename"/>
+                        </group>
+                        <group>
+                            <field name="cheque_image" filename="cheque_image_filename"/>
+                            <field name="nid_card" filename="nid_card_filename"/>
+                            <field name="trade_license" filename="trade_license_filename"/>
+                            <field name="financial_agreement" filename="financial_agreement_filename"/>
+                        </group>
+                    </group>
+                    <group string="">
+                        <group>
+                            <field name="user_id" options="{'no_create':True}"/>
+                            <field name="support_team_id"/>
+                        </group>
+                        <group>
+                            <field name="client_type_id"/>
+                        </group>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- 3. Action -->
+    <record id="action_isp_client" model="ir.actions.act_window">
+        <field name="name">ISP Clients</field>
+        <field name="res_model">isp.client</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new ISP Client
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem
+            id="menu_isp_clients_root"
+            name="Clients"
+            action="action_isp_client"
+            sequence="2"
+            groups="kio_isp_management.group_isp_clients_access"/>
+
+</odoo>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree / List View -->
+    <record id="view_isp_upazila_tree" model="ir.ui.view">
+        <field name="name">isp.upazila.tree</field>
+        <field name="model">isp.upazila</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="district_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_isp_upazila_form" model="ir.ui.view">
+        <field name="name">isp.upazila.form</field>
+        <field name="model">isp.upazila</field>
+        <field name="arch" type="xml">
+            <form string="Upazila">
+                <sheet>
+                    <group>
+                        <field name="code" readonly="1"/>
+                        <field name="name" string="Upazila Name" required="1"/>
+                        <field name="district_id" string="District" required="1" options="{'no_create': True}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_isp_upazila" model="ir.actions.act_window">
+        <field name="name">Upazilas</field>
+        <field name="res_model">isp.upazila</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_isp_upazila_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add your first Upazila!
+            </p>
+        </field>
+    </record>
+
+</odoo>

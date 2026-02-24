@@ -1,0 +1,161 @@
+.kio_capacity_tree th[data-name="capacity"] .o_column_title {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: initial !important;
+}
+
+.kio_capacity_tree td[data-name="capacity"] {
+    white-space: nowrap !important;
+}
+
+.kio_capacity_tree th[data-name="capacity"],
+.kio_capacity_tree td[data-name="capacity"] {
+    min-width: 140px !important;
+}
+
+.kio_capacity_tree td[data-name="capacity"]::after {
+    content: " MB";
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 4px;
+    color: #6c757d;
+}
+
+.kio_capacity_layout_fix {
+    width: 100%;
+}
+
+.kio_capacity_layout_fix .kio_capacity_one2many {
+    width: 100%;
+}
+
+.kio_capacity_layout_fix .o_field_x2many_list_row_add {
+    display: none !important;
+}
+
+.kio_capacity_layout_fix .o_list_table tbody tr:not(.o_data_row) {
+    display: none !important;
+}
+
+.kio_capacity_layout_fix .o_list_table tbody tr > td[colspan]:not(.o_field_x2many_list_row_add) {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    border-top: 0 !important;
+    border-bottom: 0 !important;
+    height: 0 !important;
+    line-height: 0 !important;
+    font-size: 0 !important;
+}
+
+.kio_capacity_layout_fix .kio_capacity_totals_grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr 1fr 1.2fr;
+    width: 669px;
+    margin: -16px 0 0 0px;
+    padding: 0;
+    column-gap: 0;
+    border-top: 1px solid var(--border-color, #d8dde6);
+    border-left: 1px solid var(--border-color, #d8dde6);
+    border-right: 0;
+}
+
+.kio_capacity_layout_fix .kio_capacity_total_cell {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    min-height: 44px;
+    border-right: 1px solid var(--border-color, #d8dde6);
+    border-bottom: 1px solid var(--border-color, #d8dde6);
+}
+
+.kio_capacity_layout_fix .kio_capacity_totals_grid .kio_capacity_total_cell {
+    border-bottom: 0;
+    border-left: 0;
+    border-right: 0;
+}
+
+.kio_capacity_layout_fix .kio_capacity_total_cell .o_field_widget {
+    min-width: 80px;
+    text-align: right;
+}
+
+.kio_capacity_layout_fix .kio_capacity_totals_grid .kio_capacity_total_cell:nth-child(2) {
+    justify-content: flex-start;
+    gap: 8px;
+    padding-left: 16px;
+}
+
+.kio_capacity_layout_fix .kio_capacity_totals_grid .kio_capacity_total_cell:nth-child(5) {
+    gap: 8px;
+    padding-right: 16px;
+}
+
+.kio_capacity_layout_fix .kio_capacity_total_cell_end {
+    justify-content: flex-end;
+}
+
+.kio_capacity_layout_fix .kio_capacity_data_cell {
+    justify-content: flex-end;
+    gap: 6px;
+    padding-right: 16px;
+    white-space: nowrap;
+}
+
+.kio_capacity_layout_fix .kio_capacity_add_line_btn {
+    color: #5f5b95;
+    text-decoration: none;
+}
+
+.kio_capacity_layout_fix .kio_capacity_add_line_cell {
+    justify-content: flex-start;
+    padding-left: 16px;
+}
+
+.kio_capacity_tree th:not([data-name="type_id"]),
+.kio_capacity_tree td:not([data-name="type_id"]),
+.kio_offer_capacity_tree th:not([data-name="type_id"]),
+.kio_offer_capacity_tree td:not([data-name="type_id"]) {
+    text-align: center;
+}
+
+
+
+.kio_product_tables {
+    display: flex;
+    column-gap: 140px;
+}
+
+.kio_product_tables > .o_col-6 {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.kio_product_tables .o_col-6 > .o_field_x2many {
+    margin-bottom: 8px;
+}
+
+.kio_nttn_capacity_scope .kio_capacity_tree table tfoot td {
+    text-align: center !important;
+    vertical-align: middle !important;
+    font-weight: 700 !important;
+    background: #f8f9fa !important;
+    white-space: normal !important;
+}
+
+.kio_nttn_capacity_scope .kio_capacity_tree table tfoot td:nth-child(1)::before {
+    content: "Data Capacity:";
+    font-weight: 600;
+}
+
+.kio_nttn_capacity_scope .kio_capacity_tree table tfoot td:nth-child(2)::after {
+    content: " MBPS";
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+.gap-5 {
+    gap: 527px !important;
+}

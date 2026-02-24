@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_isp_work_order_document">
+            <t t-call="web.external_layout">
+                <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+                <div class="page">
+                    <h2 class="text-center mb-3">Work Order</h2>
+                    <table class="table table-sm">
+                        <tr>
+                            <td><strong>Work Order</strong></td>
+                            <td t-esc="doc.work_order_name"/>
+                            <td><strong>Survey Ref</strong></td>
+                            <td t-esc="doc.name"/>
+                        </tr>
+                        <tr>
+                            <td><strong>Customer</strong></td>
+                            <td t-esc="doc.customer_name"/>
+                            <td><strong>Salesperson</strong></td>
+                            <td t-esc="doc.user_id.name"/>
+                        </tr>
+                        <tr>
+                            <td><strong>Phone</strong></td>
+                            <td t-esc="doc.phone"/>
+                            <td><strong>Email</strong></td>
+                            <td t-esc="doc.email"/>
+                        </tr>
+                        <tr>
+                            <td><strong>Division</strong></td>
+                            <td t-esc="doc.division"/>
+                            <td><strong>District / Upazila</strong></td>
+                            <td>
+                                <span t-esc="doc.district_id.name or ''"/>
+                                <span t-if="doc.upazila_id">
+                                    /
+                                    <t t-esc="doc.upazila_id.name"/>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Area</strong></td>
+                            <td t-esc="doc.area"/>
+                            <td><strong>Latitude / Longitude</strong></td>
+                            <td>
+                                <span t-esc="doc.latitude or ''"/>
+                                <span t-if="doc.longitude">
+                                    /
+                                    <t t-esc="doc.longitude"/>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <h3 class="mt-4">Capacity Details</h3>
+                    <t t-set="report_currency" t-value="doc.currency_id or doc.env.company.currency_id"/>
+                    <t t-set="currency_symbol" t-value="report_currency and report_currency.symbol or ''"/>
+
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Type</th>
+                                <th class="text-end">Capacity (MB)</th>
+                                <th class="text-end">Existing Price</th>
+                                <th class="text-end">Amount</th>
+                            </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="enumerate(doc.capacity_type_ids, 1)" t-as="line_info">
+                            <t t-set="idx" t-value="line_info[0]"/>
+                            <t t-set="line" t-value="line_info[1]"/>
+                            <tr>
+                                <td t-esc="idx"/>
+                                <td t-esc="line.type_id.name or 'N/A'"/>
+                                <td class="text-end" t-esc="line.capacity"/>
+                                <td class="text-end">
+                                    <span t-esc="line.existing_price or 0.0"/>
+                                    <span t-esc="currency_symbol"/>
+                                </td>
+                                <td class="text-end">
+                                    <span t-esc="(line.capacity or 0.0) * (line.existing_price or 0.0)"/>
+                                    <span t-esc="currency_symbol"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="2" class="text-end">Total Capacity</th>
+                                <th class="text-end" t-esc="doc.total_capacity"/>
+                                <th class="text-end">MB</th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <th colspan="4" class="text-end">Total Amount</th>
+                                <th class="text-end">
+                                    <span t-esc="doc.total_amount or 0.0"/>
+                                    <span t-esc="currency_symbol"/>
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <h3 class="mt-4">Additional Notes</h3>
+                    <p t-esc="doc.additional_notes or ''"/>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_isp_work_order_raw">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="kio_isp_management.report_isp_work_order_document"/>
+                </t>
+            </t>
+        </template>
+
+        <record id="action_report_isp_work_order" model="ir.actions.report">
+            <field name="name">Work Order</field>
+            <field name="model">isp.work.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">kio_isp_management.report_isp_work_order_raw</field>
+            <field name="report_file">kio_isp_management.report_isp_work_order_raw</field>
+            <field name="print_report_name">'WorkOrder-%s' % (object.work_order_name)</field>
+            <field name="binding_model_id" ref="kio_isp_management.model_isp_work_order"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

@@ -67,6 +67,7 @@
                             </div>
                             <field name="device_id"/>
                             <field name="device_details"/>
+                            <field name="is_lacp"/>
                         </group>
 
                         <group string="Location">

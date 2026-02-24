@@ -176,6 +176,7 @@ class IspTransmissionOwn(models.Model):
         help='Select one or more ports from configuration.'
     )
     device_details = fields.Char()
+    is_lacp = fields.Boolean(string='Is LACP')
 
 
 

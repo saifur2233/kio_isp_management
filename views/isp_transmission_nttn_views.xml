@@ -78,10 +78,10 @@
                             </div>
                             <field name="nttn_link_id"/>
                             <field name="nttn_provider_name"/>
-                            <field name="p2p_address"/>
-                            <field name="additional_ip"/>
+                            <field name="p2p_address" groups="kio_isp_management.group_isp_noc_access"/>
+                            <field name="additional_ip" groups="kio_isp_management.group_isp_noc_access"/>
                             <field name="pop"/>
-                            <field name="vlan_id"/>
+                            <field name="vlan_id" groups="kio_isp_management.group_isp_nttn_access"/>
                         </group>
 
                         <group string="Location">

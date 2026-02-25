@@ -36,6 +36,11 @@
         <field name="category_id" ref="module_category_isp_management"/>
     </record>
 
+    <record id="group_isp_nttn_access" model="res.groups">
+        <field name="name">NTTN Access</field>
+        <field name="category_id" ref="module_category_isp_management"/>
+    </record>
+
     <record id="group_isp_accounts_access" model="res.groups">
         <field name="name">Accounts Access</field>
         <field name="category_id" ref="module_category_isp_management"/>

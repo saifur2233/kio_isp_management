@@ -123,8 +123,139 @@ class IspTransmissionNTTN(models.Model):
         default='draft',
     )
 
+    # State timeline timestamps (for stopwatch statusbar)
+    state_draft_date = fields.Datetime(string="Draft At", readonly=True, copy=False)
+    state_confirm_date = fields.Datetime(string="NTTN Confirm At", readonly=True, copy=False)
+    state_noc_confirm_date = fields.Datetime(string="NOC Confirm At", readonly=True, copy=False)
+    state_done_date = fields.Datetime(string="Done At", readonly=True, copy=False)
+
+    # Stored durations between stage transitions
+    dur_draft_to_confirm_sec = fields.Integer(
+        string="Draft → Confirm (sec)",
+        compute="_compute_state_durations",
+        store=True,
+    )
+    dur_confirm_to_noc_sec = fields.Integer(
+        string="Confirm → NOC Confirm (sec)",
+        compute="_compute_state_durations",
+        store=True,
+    )
+    dur_noc_to_done_sec = fields.Integer(
+        string="NOC Confirm → Done (sec)",
+        compute="_compute_state_durations",
+        store=True,
+    )
+    dur_draft_to_confirm_display = fields.Char(
+        string="Draft → Confirm",
+        compute="_compute_state_durations",
+        store=True,
+    )
+    dur_confirm_to_noc_display = fields.Char(
+        string="Confirm → NOC Confirm",
+        compute="_compute_state_durations",
+        store=True,
+    )
+    dur_noc_to_done_display = fields.Char(
+        string="NOC Confirm → Done",
+        compute="_compute_state_durations",
+        store=True,
+    )
+
     vlan_range = fields.Char(string="VLAN Range")
     kam = fields.Many2one('res.partner', string='KAM')
+
+    def _format_seconds(self, sec):
+        total_ms = int(round(float(sec or 0) * 1000))
+        if total_ms < 0:
+            total_ms = 0
+        hours, remainder = divmod(total_ms, 3600000)
+        minutes, remainder = divmod(remainder, 60000)
+        seconds, milliseconds = divmod(remainder, 1000)
+        centiseconds = milliseconds // 10
+        return f"{hours:02d}:{minutes:02d}:{seconds:02d}.{centiseconds:02d}"
+
+    @api.model
+    def create(self, vals):
+        now = fields.Datetime.now()
+        initial_state = vals.get('state') or 'draft'
+
+        if not vals.get('state_draft_date'):
+            vals['state_draft_date'] = now
+
+        initial_state_date_field = self._get_state_date_field(initial_state)
+        if initial_state_date_field and not vals.get(initial_state_date_field):
+            vals[initial_state_date_field] = vals.get('state_draft_date') or now
+
+        return super().create(vals)
+
+    def write(self, vals):
+        if 'state' not in vals:
+            return super().write(vals)
+
+        new_state = vals.get('state')
+        state_date_field = self._get_state_date_field(new_state)
+        if not state_date_field:
+            return super().write(vals)
+
+        now = fields.Datetime.now()
+        if len(self) == 1:
+            rec = self
+            write_vals = dict(vals)
+            if not rec.state_draft_date:
+                write_vals['state_draft_date'] = rec.create_date or now
+            if not rec[state_date_field]:
+                write_vals[state_date_field] = now
+            return super().write(write_vals)
+
+        for rec in self:
+            write_vals = dict(vals)
+            if not rec.state_draft_date:
+                write_vals['state_draft_date'] = rec.create_date or now
+            if not rec[state_date_field]:
+                write_vals[state_date_field] = now
+            super(IspTransmissionNTTN, rec).write(write_vals)
+        return True
+
+    def _get_state_date_field(self, state):
+        return {
+            'draft': 'state_draft_date',
+            'confirm': 'state_confirm_date',
+            'noc_confirm': 'state_noc_confirm_date',
+            'done': 'state_done_date',
+        }.get(state)
+
+    @api.depends(
+        'state_draft_date',
+        'state_confirm_date',
+        'state_noc_confirm_date',
+        'state_done_date',
+        'create_date',
+    )
+    def _compute_state_durations(self):
+        for rec in self:
+            draft_dt = rec.state_draft_date or rec.create_date
+            confirm_dt = rec.state_confirm_date
+            noc_dt = rec.state_noc_confirm_date
+            done_dt = rec.state_done_date
+
+            sec1 = 0
+            if draft_dt and confirm_dt and confirm_dt > draft_dt:
+                sec1 = int((confirm_dt - draft_dt).total_seconds())
+
+            sec2 = 0
+            if confirm_dt and noc_dt and noc_dt > confirm_dt:
+                sec2 = int((noc_dt - confirm_dt).total_seconds())
+
+            sec3 = 0
+            if noc_dt and done_dt and done_dt > noc_dt:
+                sec3 = int((done_dt - noc_dt).total_seconds())
+
+            rec.dur_draft_to_confirm_sec = sec1
+            rec.dur_confirm_to_noc_sec = sec2
+            rec.dur_noc_to_done_sec = sec3
+            rec.dur_draft_to_confirm_display = self._format_seconds(sec1) if sec1 else ""
+            rec.dur_confirm_to_noc_display = self._format_seconds(sec2) if sec2 else ""
+            rec.dur_noc_to_done_display = self._format_seconds(sec3) if sec3 else ""
 
 
     # =========================

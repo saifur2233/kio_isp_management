@@ -48,7 +48,15 @@
                             groups="kio_isp_management.group_isp_noc_access"
                             invisible="state != 'noc_confirm'"/>
 
-                    <field name="state" widget="statusbar"/>
+                    <field name="state" widget="isp_state_duration_statusbar"/>
+                    <field name="state_draft_date" invisible="1"/>
+                    <field name="state_confirm_date" invisible="1"/>
+                    <field name="state_noc_confirm_date" invisible="1"/>
+                    <field name="state_done_date" invisible="1"/>
+                    <field name="dur_draft_to_confirm_sec" invisible="1"/>
+                    <field name="dur_confirm_to_noc_sec" invisible="1"/>
+                    <field name="dur_noc_to_done_sec" invisible="1"/>
+                    <field name="create_date" invisible="1"/>
                 </header>
                 <sheet>
                     <group>

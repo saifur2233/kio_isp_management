@@ -134,6 +134,77 @@ export class IspStateDurationStatusBar extends StatusBarField {
         };
     }
 
+    _hasNocStateTimeline(data) {
+        return (
+            Object.prototype.hasOwnProperty.call(data, "state_confirm_date") &&
+            Object.prototype.hasOwnProperty.call(data, "state_noc_confirm_date") &&
+            Object.prototype.hasOwnProperty.call(data, "state_done_date")
+        );
+    }
+
+    _getNocStateDateMap(data) {
+        const draftStartedAt = this._toDate(data.state_draft_date) || this._toDate(data.create_date);
+        return {
+            draft: draftStartedAt,
+            confirm: this._toDate(data.state_confirm_date),
+            noc_confirm: this._toDate(data.state_noc_confirm_date),
+            done: this._toDate(data.state_done_date),
+        };
+    }
+
+    _getNocRunningDuration(data, stateDates) {
+        const state = data.state;
+        const startedAt = stateDates[state];
+        if (!startedAt) {
+            return null;
+        }
+        return { state, ms: this._diffMs(startedAt, new Date()) };
+    }
+
+    _getNocFallbackMs(stateValue, data) {
+        const sec = {
+            draft: data.dur_draft_to_confirm_sec,
+            confirm: data.dur_confirm_to_noc_sec,
+            noc_confirm: data.dur_noc_to_done_sec,
+        }[stateValue];
+        if (!Number.isFinite(sec)) {
+            return null;
+        }
+        return Math.max(0, Number(sec)) * 1000;
+    }
+
+    _getNocItems(items, data) {
+        const stateDates = this._getNocStateDateMap(data);
+        const running = this._getNocRunningDuration(data, stateDates);
+
+        return items.map((it) => {
+            let extra = "";
+            const stateValue = it.value;
+            const startedAt = stateDates[stateValue];
+
+            if (data.state === stateValue && running?.state === stateValue) {
+                extra = this._formatStopwatch(running.ms);
+            } else if (startedAt) {
+                const nextAt = this._getNextStateDate(startedAt, stateDates);
+                if (nextAt) {
+                    const ms = this._diffMs(startedAt, nextAt);
+                    extra = this._formatStopwatch(ms);
+                }
+            }
+
+            if (!extra) {
+                const fallbackMs = this._getNocFallbackMs(stateValue, data);
+                if (fallbackMs !== null) {
+                    extra = this._formatStopwatch(fallbackMs);
+                }
+            }
+
+            const baseLabel = it.label;
+            const label = extra ? `${baseLabel} (${extra})` : baseLabel;
+            return { ...it, label, baseLabel, extraDuration: extra };
+        });
+    }
+
     _getWorkRunningDuration(data, stateDates) {
         const state = data.work_state;
         const startedAt = stateDates[state];
@@ -193,6 +264,9 @@ export class IspStateDurationStatusBar extends StatusBarField {
         const data = this.props.record.data;
         if (this.props.name === "work_state") {
             return this._getWorkItems(items, data);
+        }
+        if (this.props.name === "state" && this._hasNocStateTimeline(data)) {
+            return this._getNocItems(items, data);
         }
         return this._getSurveyItems(items, data);
     }

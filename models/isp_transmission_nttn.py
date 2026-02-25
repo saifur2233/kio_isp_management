@@ -29,6 +29,26 @@ class IspTransmissionNTTN(models.Model):
         tracking=True,
         help='Selected NTTN provider for this transmission.'
     )
+    p2p_address = fields.Char(
+        string='P2P Address',
+        tracking=True,
+        help='Point-to-point address for this transmission.'
+    )
+    additional_ip = fields.Char(
+        string='Additional IP',
+        tracking=True,
+        help='Additional IP address information.'
+    )
+    pop = fields.Char(
+        string='POP',
+        tracking=True,
+        help='POP reference for this transmission.'
+    )
+    vlan_id = fields.Char(
+        string='VLAN ID',
+        tracking=True,
+        help='VLAN identifier for this transmission.'
+    )
     aggregation_point_id = fields.Many2one(
         'isp.aggregation.point',
         string='Aggregation Point',
@@ -161,7 +181,6 @@ class IspTransmissionNTTN(models.Model):
         store=True,
     )
 
-    vlan_range = fields.Char(string="VLAN Range")
     kam = fields.Many2one('res.partner', string='KAM')
 
     def _format_seconds(self, sec):
@@ -317,8 +336,6 @@ class IspTransmissionNTTN(models.Model):
     def action_nttn_confirm(self):
         for rec in self:
             missing = []
-            if not rec.vlan_range:
-                missing.append(_("VLAN Range"))
             if not rec.kam:
                 missing.append(_("KAM"))
 

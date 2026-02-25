@@ -76,9 +76,12 @@
                                        class="o_hr_narrow_field"/>
                                 <span class="text-muted fw-semibold">MB</span>
                             </div>
-<!--                            <field name="vlan_range"/>-->
                             <field name="nttn_link_id"/>
                             <field name="nttn_provider_name"/>
+                            <field name="p2p_address"/>
+                            <field name="additional_ip"/>
+                            <field name="pop"/>
+                            <field name="vlan_id"/>
                         </group>
 
                         <group string="Location">

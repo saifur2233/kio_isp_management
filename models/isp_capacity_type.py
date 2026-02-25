@@ -59,3 +59,27 @@ class IspCapacityType(models.Model):
                     raise ValidationError(
                         _("Capacity must be greater than zero when Type is selected.")
                     )
+
+    @api.constrains('vlan_port', 'transmission_id')
+    def _check_unique_vlan_per_aggregation_nttn(self):
+        """Prevent reusing the same VLAN ID within the same Aggregation Point and NTTN."""
+        for record in self:
+            if not record.vlan_port or not record.transmission_id:
+                continue
+
+            aggregation_point = record.transmission_id.aggregation_point_id
+            nttn_provider = record.transmission_id.nttn_provider_name
+            if not aggregation_point or not nttn_provider:
+                continue
+
+            duplicate = self.search([
+                ('id', '!=', record.id),
+                ('vlan_port', '=', record.vlan_port),
+                ('transmission_id.aggregation_point_id', '=', aggregation_point.id),
+                ('transmission_id.nttn_provider_name', '=', nttn_provider.id),
+            ], limit=1)
+
+            if duplicate:
+                raise ValidationError(_(
+                    "VLAN ID '%s' is already used for this Aggregation Point under the same NTTN."
+                ) % record.vlan_port)

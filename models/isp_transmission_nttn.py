@@ -335,14 +335,22 @@ class IspTransmissionNTTN(models.Model):
 
     def action_nttn_confirm(self):
         for rec in self:
+<<<<<<< Updated upstream
             missing = []
             if not rec.kam:
                 missing.append(_("KAM"))
+=======
+            # missing = []
+            # if not rec.vlan_range:
+            #     missing.append(_("VLAN Range"))
+            # if not rec.kam:
+            #     missing.append(_("KAM"))
+>>>>>>> Stashed changes
 
-            if missing:
-                raise ValidationError(_(
-                    "You cannot confirm this record because the following fields are missing:\n- %s"
-                ) % ("\n- ".join(missing)))
+            # if missing:
+            #     raise ValidationError(_(
+            #         "You cannot confirm this record because the following fields are missing:\n- %s"
+            #     ) % ("\n- ".join(missing)))
 
             rec.state = 'confirm'
         return self._action_open_current_record()

@@ -49,27 +49,34 @@
 
 /* Prefix labels */
 .kio_survey_bw_scope .kio_capacity_tree table tfoot td:nth-child(1)::before {
-    content: "Data Capacity: ";
-    font-weight: 600;
-    margin-right: 4px;
+    content: none;
 }
 
 .kio_survey_bw_scope .kio_capacity_tree table tfoot td:nth-child(4)::before {
-    content: "Grand Total: ";
-    font-weight: 600;
-    margin-right: -45px;
+    content: none;
 }
 
 .kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td:nth-child(1)::before {
-    content: "Data Capacity: ";
+    content: none;
+}
+
+.kio_survey_bw_scope .kio_capacity_tree table tfoot td:nth-child(2).o_list_number > span,
+.kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td:nth-child(2).o_list_number > span {
+    position: relative;
+    display: inline-block;
+}
+
+.kio_survey_bw_scope .kio_capacity_tree table tfoot td:nth-child(2).o_list_number > span::before,
+.kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td:nth-child(2).o_list_number > span::before {
+    content: "Data Capacity:";
+    position: absolute;
+    right: calc(100% + 6px);
+    white-space: nowrap;
     font-weight: 600;
-    margin-right: 4px;
 }
 
 .kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td:nth-child(4)::before {
-    content: "Grand Total: ";
-    font-weight: 600;
-    margin-right: -65px;
+    content: none;
 }
 
 /* Units after totals */
@@ -84,6 +91,15 @@
 .kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td:nth-child(5).o_list_number > span {
     position: relative;
     display: inline-block;
+}
+
+.kio_survey_bw_scope .kio_capacity_tree table tfoot td:nth-child(5).o_list_number > span::before,
+.kio_survey_bw_scope .kio_offer_capacity_tree table tfoot td:nth-child(5).o_list_number > span::before {
+    content: "Grand Total:";
+    position: absolute;
+    right: calc(100% + 6px);
+    white-space: nowrap;
+    font-weight: 600;
 }
 
 .kio_survey_bw_scope .kio_capacity_tree table tfoot td:nth-child(5).o_list_number > span::after,
@@ -270,9 +286,7 @@
 
 /* Product Details (Work Order) footer labels/totals */
 .kio_work_order_product_billing .kio_offer_capacity_tree table tfoot td:nth-child(1)::before {
-    content: "Data Capacity: ";
-    font-weight: 600;
-    margin-right: 4px;
+    content: none;
 }
 
 /* .kio_work_order_product_billing .kio_offer_capacity_tree table tfoot td:nth-child(2)::after {
@@ -282,9 +296,29 @@
 } */
 
 .kio_work_order_product_billing .kio_offer_capacity_tree table tfoot td:nth-child(4)::before {
-    content: "Grand Price: ";
+    content: none;
+}
+
+.kio_work_order_product_billing .kio_offer_capacity_tree table tfoot td:nth-child(2).o_list_number > span,
+.kio_work_order_product_billing .kio_offer_capacity_tree table tfoot td:nth-child(5).o_list_number > span {
+    position: relative;
+    display: inline-block;
+}
+
+.kio_work_order_product_billing .kio_offer_capacity_tree table tfoot td:nth-child(2).o_list_number > span::before {
+    content: "Data Capacity:";
+    position: absolute;
+    right: calc(100% + 6px);
+    white-space: nowrap;
     font-weight: 600;
-    margin-right: -65px;
+}
+
+.kio_work_order_product_billing .kio_offer_capacity_tree table tfoot td:nth-child(5).o_list_number > span::before {
+    content: "Grand Price:";
+    position: absolute;
+    right: calc(100% + 6px);
+    white-space: nowrap;
+    font-weight: 600;
 }
 
 .kio_work_order_product_billing .kio_offer_capacity_tree table tfoot td:nth-child(5)::after {
@@ -314,16 +348,50 @@
 
 .kio_work_order_product_billing 
 .kio_work_order_billing_tree 
+table {
+    table-layout: auto !important;
+}
+
+.kio_work_order_product_billing 
+.kio_work_order_billing_tree 
+table thead th:nth-child(1),
+.kio_work_order_product_billing 
+.kio_work_order_billing_tree 
+table tbody td:nth-child(1),
+.kio_work_order_product_billing 
+.kio_work_order_billing_tree 
 table tfoot td:nth-child(1) {
-    text-align: left !important;
+    white-space: nowrap !important;
+}
+
+.kio_work_order_product_billing 
+.kio_work_order_billing_tree 
+table tfoot td:nth-child(1) {
+    text-align: center !important;
 }
 
 .kio_work_order_product_billing .kio_work_order_billing_tree table tfoot td:nth-child(1)::before {
-    content: "Grand Total: ";
+    content: none;
+}
+
+.kio_work_order_product_billing .kio_work_order_billing_tree table tfoot td:nth-child(1).o_list_number > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.kio_work_order_product_billing .kio_work_order_billing_tree table tfoot td:nth-child(1).o_list_number > span::before {
+    content: "Grand Total:";
     font-weight: 600;
-    display: inline-block;
-    text-align: left !important;
-    margin-right: 4px;
+    white-space: nowrap;
+}
+
+.kio_work_order_product_billing .kio_work_order_billing_tree table tfoot td:nth-child(1).o_list_number > span::after {
+    content: "Grand Total:";
+    font-weight: 600;
+    visibility: hidden;
+    white-space: nowrap;
 }
 
 /* .kio_work_order_product_billing .kio_capacity_tree table tfoot td:nth-child(4)::after,
@@ -368,4 +436,45 @@ table tfoot td:nth-child(1) {
 .o_field_statusbar .kio_statusbar_duration {
     color: #dc3545;
     font-weight: 600;
+}
+
+/* NOC Management */
+.kio_nttn_capacity_scope .kio_capacity_tree table tfoot td {
+    text-align: center !important;
+    vertical-align: middle !important;
+    font-weight: 700 !important;
+    background: #f8f9fa !important;
+    white-space: normal !important;
+}
+
+.kio_nttn_capacity_scope .kio_capacity_tree table tfoot td:nth-child(1)::before {
+    content: none;
+}
+
+.kio_nttn_capacity_scope .kio_capacity_tree table tfoot td:nth-child(1) {
+    border-right: 0 !important;
+}
+
+.kio_nttn_capacity_scope .kio_capacity_tree table tfoot td:nth-child(2) {
+    border-left: 0 !important;
+    white-space: nowrap !important;
+}
+
+.kio_nttn_capacity_scope .kio_capacity_tree table tfoot td:nth-child(2).o_list_number > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.kio_nttn_capacity_scope .kio_capacity_tree table tfoot td:nth-child(2).o_list_number > span::before {
+    content: "Data Capacity:";
+    font-weight: 600;
+}
+
+.kio_nttn_capacity_scope .kio_capacity_tree table tfoot td:nth-child(2).o_list_number > span::after {
+    content: "Data Capacity:";
+    font-weight: 600;
+    visibility: hidden;
+    white-space: nowrap;
 }

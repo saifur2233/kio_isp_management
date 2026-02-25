@@ -137,24 +137,13 @@
     margin-bottom: 8px;
 }
 
-.kio_nttn_capacity_scope .kio_capacity_tree table tfoot td {
-    text-align: center !important;
-    vertical-align: middle !important;
-    font-weight: 700 !important;
-    background: #f8f9fa !important;
-    white-space: normal !important;
-}
 
-.kio_nttn_capacity_scope .kio_capacity_tree table tfoot td:nth-child(1)::before {
-    content: "Data Capacity:";
-    font-weight: 600;
-}
 
-.kio_nttn_capacity_scope .kio_capacity_tree table tfoot td:nth-child(2)::after {
+/* .kio_nttn_capacity_scope .kio_capacity_tree table tfoot td:nth-child(2)::after {
     content: " MBPS";
     font-weight: 600;
     margin-left: 4px;
-}
+} */
 
 .gap-5 {
     gap: 527px !important;
